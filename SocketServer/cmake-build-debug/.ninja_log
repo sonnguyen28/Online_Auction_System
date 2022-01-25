@@ -1,0 +1,15 @@
+# ninja log v5
+2	400	1641925719930362406	CMakeFiles/SocketServer.dir/src/handle_message.c.o	6887417ccf25ac7
+2	110	1641879378694208618	CMakeFiles/SocketServer.dir/src/handle_database.c.o	b2d2ddee8846b83d
+1	84	1641875146581784960	CMakeFiles/SocketServer.dir/src/handle_client.c.o	5c28447a6e25b805
+400	492	1641925720024796160	SocketServer	ab0ea1a5feb85fab
+0	93	1643099634079331680	build.ninja	f474f632dc40b7a5
+115	146	1640462478420226000	liblib_database.a	db9baf095beea8dd
+3	120	1641877930202342987	CMakeFiles/SocketServer.dir/src/main.c.o	54bb79418c0c5214
+2	200	1640458238073803673	CMakeFiles/SocketServer.dir/src/cJSON.c.o	b9ba1720f7a49ab7
+2	242	1643099639791067078	CMakeFiles/SocketServer.dir/src/handle_client.c.o	71e56db1cce39316
+4	253	1643099639802752427	CMakeFiles/SocketServer.dir/src/main.c.o	1fc869adb08d38dc
+3	261	1643099639814143612	CMakeFiles/SocketServer.dir/src/handle_message.c.o	dc7f97d28ad9e0b3
+3	263	1643099639818400633	CMakeFiles/SocketServer.dir/src/handle_database.c.o	25c8655ae5484640
+2	338	1643099639895274355	CMakeFiles/SocketServer.dir/src/cJSON.c.o	1434530e0726a1f4
+338	430	1643099639987411862	SocketServer	ab0ea1a5feb85fab
