@@ -62,7 +62,6 @@ Lot readInfoLot(char *messageFromClient) // Dung de doc message cua chuc nang cr
     cJSON *min_price = cJSON_GetObjectItemCaseSensitive(messJson, "min_price");
     //cJSON *time_start = cJSON_GetObjectItemCaseSensitive(messJson, "time_start");
     cJSON *time_stop = cJSON_GetObjectItemCaseSensitive(messJson, "time_stop");
-    cJSON *image_link = cJSON_GetObjectItemCaseSensitive(messJson, "image_link");
 
     if(title != NULL){
         strcpy(newLot.title,title->valuestring);
@@ -76,10 +75,6 @@ Lot readInfoLot(char *messageFromClient) // Dung de doc message cua chuc nang cr
     if(time_stop != NULL){
         //newLot.start_time = UnixTimeFromMysqlString(time_start->valuestring);
         newLot.stop_time = convert(time_stop->valuestring);
-    }
-    if(image_link != NULL){
-        //printf("{%s\n%s}\n", convertTimeToString(newLot.start_time), convertTimeToString(newLot.stop_time));
-        strcpy(newLot.image_link, image_link->valuestring);
     }
     return newLot;
 }
@@ -205,7 +200,6 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                     cJSON_AddItemToObject(lotJson, "owner_id",cJSON_CreateNumber(currentListLots[i].owner_id));
                     cJSON_AddItemToObject(lotJson, "time_start",cJSON_CreateString(convertTimeToString(currentListLots[i].start_time)));
                     cJSON_AddItemToObject(lotJson, "time_stop",cJSON_CreateString(convertTimeToString(currentListLots[i].stop_time)));
-                    cJSON_AddItemToObject(lotJson, "image_link",cJSON_CreateString(currentListLots[i].image_link));
                 }
             } else{
                 printf("Login fail !\n");
@@ -239,7 +233,6 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 cJSON_AddItemToObject(lotJson, "winning_bidder", cJSON_CreateNumber(currentListLots[indexLot].winning_bidder));
                 cJSON_AddItemToObject(lotJson, "owner_id",cJSON_CreateNumber(currentListLots[indexLot].owner_id));
                 cJSON_AddItemToObject(lotJson, "time_start",cJSON_CreateString(convertTimeToString(currentListLots[indexLot].start_time)));
-                cJSON_AddItemToObject(lotJson, "image_link",cJSON_CreateString(currentListLots[indexLot].image_link));
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
                 sendALL();
             } else{
@@ -255,7 +248,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
         case 4:
             newUser = readInfoClient(messageFromClient);
             newLot = readInfoLot(messageFromClient);
-            printf("|%s - %s - %.2f - %s - %s|\n", newLot.title, newLot.description, newLot.min_price, convertTimeToString(newLot.stop_time), newLot.image_link);
+            printf("|%s - %s - %.2f - %s|\n", newLot.title, newLot.description, newLot.min_price, convertTimeToString(newLot.stop_time));
             /*char str[20];
             strcpy(str, convertTimeToString(newLot.stop_time));
             printf("%s\n", str);*/
@@ -266,7 +259,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 printfListLot();
             }*/
             //Ket qua tra ve la lot_id moi duoc them vao
-            result = addLotToList(newLot.min_price, newLot.title, newLot.description, newUser.user_id, convertTimeToString(newLot.stop_time), newLot.image_link);
+            result = addLotToList(newLot.min_price, newLot.title, newLot.description, newUser.user_id, convertTimeToString(newLot.stop_time));
             indexLot = SearchLot(result);
             if(result >= 0){
                 response_command = 4;
@@ -282,7 +275,6 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 cJSON_AddItemToObject(lotJson, "owner_id",cJSON_CreateNumber(currentListLots[indexLot].owner_id));
                 cJSON_AddItemToObject(lotJson, "time_start",cJSON_CreateString(convertTimeToString(currentListLots[indexLot].start_time)));
                 cJSON_AddItemToObject(lotJson, "time_stop",cJSON_CreateString(convertTimeToString(currentListLots[indexLot].stop_time)));
-                cJSON_AddItemToObject(lotJson, "image_link",cJSON_CreateString(currentListLots[indexLot].image_link));
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
                 sendALL();
             }else {
@@ -323,7 +315,6 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                     cJSON_AddItemToObject(lotJson, "owner_id",cJSON_CreateNumber(listLotsHistory[i].owner_id));
                     cJSON_AddItemToObject(lotJson, "time_start",cJSON_CreateString(convertTimeToString(listLotsHistory[i].start_time)));
                     cJSON_AddItemToObject(lotJson, "time_stop",cJSON_CreateString(convertTimeToString(listLotsHistory[i].stop_time)));
-                    cJSON_AddItemToObject(lotJson, "image_link",cJSON_CreateString(listLotsHistory[i].image_link));
                 }
             } else{
 

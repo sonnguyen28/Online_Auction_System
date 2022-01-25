@@ -177,7 +177,6 @@ void available_lots(){
             currentListLots[lotTotal].owner_id = atoi(row[6]);
             currentListLots[lotTotal].start_time = convert((char *)row[7]);
             currentListLots[lotTotal].stop_time = convert((char *)row[8]);
-            strcpy(currentListLots[lotTotal].image_link,(char *)row[9]);
             lotTotal++;
         }
         mysql_free_result(res);
@@ -226,7 +225,7 @@ time_t UnixTimeFromMysqlString(char *s)
     return t;
 }
 
-int addLotToList(float min_price, char title[255], char description[255], int owner_id, char stop_time[20], char image_link[4096]){
+int addLotToList(float min_price, char title[255], char description[255], int owner_id, char stop_time[20]){
     /*time_t t = get_last_time();*/
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
@@ -253,7 +252,6 @@ int addLotToList(float min_price, char title[255], char description[255], int ow
         //printf("%d\n", (*localtime(&currentListLots[lotTotal].start_time)).tm_hour);
         currentListLots[lotTotal].stop_time = convert(stop_time);
         //printf("%d\n", (*localtime(&currentListLots[lotTotal].stop_time)).tm_hour);
-        strcpy(currentListLots[lotTotal].image_link, image_link);
         lotTotal++;
         return last_lotID;
     }
@@ -279,9 +277,9 @@ int DeleteLotInList(int lotID){
 
 void printfListLot(){
     for (int i = 0; i < lotTotal; i++) {
-        printf("|%d-%f-%f-%d-%s-%s-%d-{%s|%s}-{%s}\n", currentListLots[i].lot_id, currentListLots[i].min_price, currentListLots[i].winning_bid,
+        printf("|%d-%f-%f-%d-%s-%s-%d-{%s|%s}\n", currentListLots[i].lot_id, currentListLots[i].min_price, currentListLots[i].winning_bid,
                currentListLots[i].winning_bidder,currentListLots[i].title, currentListLots[i].description, currentListLots[i].owner_id,
-               convertTimeToString(currentListLots[i].start_time), convertTimeToString(currentListLots[i].stop_time), currentListLots[i].image_link);
+               convertTimeToString(currentListLots[i].start_time), convertTimeToString(currentListLots[i].stop_time));
     }
 }
 
@@ -395,7 +393,6 @@ void lotHistory(int winning_bidder){
             listLotsHistory[lotTotalHistory].owner_id = atoi(row[6]);
             listLotsHistory[lotTotalHistory].start_time = convert((char *)row[7]);
             listLotsHistory[lotTotalHistory].stop_time = convert((char *)row[8]);
-            strcpy(listLotsHistory[lotTotalHistory].image_link,(char *)row[9]);
             lotTotalHistory++;
         }
         mysql_free_result(res);

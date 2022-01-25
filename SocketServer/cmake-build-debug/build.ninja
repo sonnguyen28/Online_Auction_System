@@ -39,13 +39,13 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = /Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/cmake-build-debug/
+cmake_ninja_workdir = /Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/cmake-build-debug/
 
 #############################################
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S/Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer -B/Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/cmake-build-debug
+  COMMAND = cd /Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S/Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer -B/Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/cmake-build-debug
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -57,7 +57,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -72,46 +72,46 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 
 build cmake_object_order_depends_target_SocketServer: phony || CMakeFiles/SocketServer.dir
 
-build CMakeFiles/SocketServer.dir/src/cJSON.c.o: C_COMPILER__SocketServer_Debug /Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/src/cJSON.c || cmake_object_order_depends_target_SocketServer
+build CMakeFiles/SocketServer.dir/src/cJSON.c.o: C_COMPILER__SocketServer_Debug /Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/src/cJSON.c || cmake_object_order_depends_target_SocketServer
   DEP_FILE = CMakeFiles/SocketServer.dir/src/cJSON.c.o.d
   FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu99
-  INCLUDES = -I/Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/include -I/usr/local/opt/mysql-client/include/mysql
+  INCLUDES = -I/Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/include -I/usr/local/opt/mysql-client/include/mysql
   OBJECT_DIR = CMakeFiles/SocketServer.dir
   OBJECT_FILE_DIR = CMakeFiles/SocketServer.dir/src
   TARGET_COMPILE_PDB = CMakeFiles/SocketServer.dir/
   TARGET_PDB = SocketServer.pdb
 
-build CMakeFiles/SocketServer.dir/src/handle_client.c.o: C_COMPILER__SocketServer_Debug /Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/src/handle_client.c || cmake_object_order_depends_target_SocketServer
+build CMakeFiles/SocketServer.dir/src/handle_client.c.o: C_COMPILER__SocketServer_Debug /Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/src/handle_client.c || cmake_object_order_depends_target_SocketServer
   DEP_FILE = CMakeFiles/SocketServer.dir/src/handle_client.c.o.d
   FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu99
-  INCLUDES = -I/Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/include -I/usr/local/opt/mysql-client/include/mysql
+  INCLUDES = -I/Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/include -I/usr/local/opt/mysql-client/include/mysql
   OBJECT_DIR = CMakeFiles/SocketServer.dir
   OBJECT_FILE_DIR = CMakeFiles/SocketServer.dir/src
   TARGET_COMPILE_PDB = CMakeFiles/SocketServer.dir/
   TARGET_PDB = SocketServer.pdb
 
-build CMakeFiles/SocketServer.dir/src/handle_database.c.o: C_COMPILER__SocketServer_Debug /Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/src/handle_database.c || cmake_object_order_depends_target_SocketServer
+build CMakeFiles/SocketServer.dir/src/handle_database.c.o: C_COMPILER__SocketServer_Debug /Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/src/handle_database.c || cmake_object_order_depends_target_SocketServer
   DEP_FILE = CMakeFiles/SocketServer.dir/src/handle_database.c.o.d
   FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu99
-  INCLUDES = -I/Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/include -I/usr/local/opt/mysql-client/include/mysql
+  INCLUDES = -I/Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/include -I/usr/local/opt/mysql-client/include/mysql
   OBJECT_DIR = CMakeFiles/SocketServer.dir
   OBJECT_FILE_DIR = CMakeFiles/SocketServer.dir/src
   TARGET_COMPILE_PDB = CMakeFiles/SocketServer.dir/
   TARGET_PDB = SocketServer.pdb
 
-build CMakeFiles/SocketServer.dir/src/handle_message.c.o: C_COMPILER__SocketServer_Debug /Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/src/handle_message.c || cmake_object_order_depends_target_SocketServer
+build CMakeFiles/SocketServer.dir/src/handle_message.c.o: C_COMPILER__SocketServer_Debug /Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/src/handle_message.c || cmake_object_order_depends_target_SocketServer
   DEP_FILE = CMakeFiles/SocketServer.dir/src/handle_message.c.o.d
   FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu99
-  INCLUDES = -I/Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/include -I/usr/local/opt/mysql-client/include/mysql
+  INCLUDES = -I/Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/include -I/usr/local/opt/mysql-client/include/mysql
   OBJECT_DIR = CMakeFiles/SocketServer.dir
   OBJECT_FILE_DIR = CMakeFiles/SocketServer.dir/src
   TARGET_COMPILE_PDB = CMakeFiles/SocketServer.dir/
   TARGET_PDB = SocketServer.pdb
 
-build CMakeFiles/SocketServer.dir/src/main.c.o: C_COMPILER__SocketServer_Debug /Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/src/main.c || cmake_object_order_depends_target_SocketServer
+build CMakeFiles/SocketServer.dir/src/main.c.o: C_COMPILER__SocketServer_Debug /Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/src/main.c || cmake_object_order_depends_target_SocketServer
   DEP_FILE = CMakeFiles/SocketServer.dir/src/main.c.o.d
   FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu99
-  INCLUDES = -I/Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/include -I/usr/local/opt/mysql-client/include/mysql
+  INCLUDES = -I/Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/include -I/usr/local/opt/mysql-client/include/mysql
   OBJECT_DIR = CMakeFiles/SocketServer.dir
   OBJECT_FILE_DIR = CMakeFiles/SocketServer.dir/src
   TARGET_COMPILE_PDB = CMakeFiles/SocketServer.dir/
@@ -145,7 +145,7 @@ build SocketServer: C_EXECUTABLE_LINKER__SocketServer_Debug CMakeFiles/SocketSer
 # =============================================================================
 
 #############################################
-# Folder: /Users/sonnguyen/Documents/GitHub/Online_Auction/SocketServer/cmake-build-debug
+# Folder: /Users/sonnguyen/Documents/GitHub/Online_Auction_System/SocketServer/cmake-build-debug
 
 build all: phony SocketServer
 

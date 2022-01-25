@@ -35,7 +35,6 @@ typedef struct {
     int owner_id;
     time_t start_time;
     time_t stop_time;
-    char image_link[4096];
 } Lot;
 
 // Danh sach lot dang duoc dang ban
@@ -64,7 +63,7 @@ int login_user(char username[30], char password[64]);
 
 // handle Lot
 int create_lot(float min_price, char title[255], char description[255], int owner_id, char stop_time[20]);
-int addLotToList(float min_price, char title[255], char description[255], int owner_id, char stop_time[20], char image_link[4096]);
+int addLotToList(float min_price, char title[255], char description[255], int owner_id, char stop_time[20]);
 void available_lots();
 int SearchLot(int lotID);
 void printfListLot();

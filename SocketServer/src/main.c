@@ -42,7 +42,6 @@ void *threadTime(void *data){
                 cJSON_AddItemToObject(lotJson, "owner_id",cJSON_CreateNumber(currentListLots[i].owner_id));
                 cJSON_AddItemToObject(lotJson, "time_start",cJSON_CreateString(convertTimeToString(currentListLots[i].start_time)));
                 cJSON_AddItemToObject(lotJson, "time_stop",cJSON_CreateString(convertTimeToString(currentListLots[i].stop_time)));
-                cJSON_AddItemToObject(lotJson, "image_link",cJSON_CreateString(currentListLots[i].image_link));
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
                 sendALL();
             }
