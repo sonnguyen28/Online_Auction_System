@@ -37,6 +37,14 @@ typedef struct {
     time_t stop_time;
 } Lot;
 
+typedef struct {
+    int image_id;
+    int lot_id;
+    char path_image[255];
+    int image_size;
+    char image_name[255];
+} Image;
+
 // Danh sach lot dang duoc dang ban
 Lot *currentListLots;
 int lotTotal;
@@ -48,6 +56,10 @@ int lotTotalHistory;
 // Danh sach luu lich su tra gia cua mot lot
 Bid *listBidsHistory;
 int totalBidsHistory;
+
+// Danh sach image cua 1 lot
+Image *listImage;
+int imageTotal;
 
 MYSQL *conn;
 MYSQL_RES *res;
@@ -77,3 +89,8 @@ void lotHistory(int winning_bidder);
 int create_bid(int lot_id,float bid_amount, int bidder_user_id);
 void bidsHistory(int lotID);
 void printListBids();
+
+//handle Image
+int saveImage(int lotID,char image_name[255], char path_image[1024], int image_size);
+void listPathImage(int lotID);
+void printListImage();

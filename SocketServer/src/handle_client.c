@@ -79,6 +79,7 @@ int DeleteClientSocketID(int socketID, int *countUser){
     if(pos < 0){
         /*printf("Ko tim thay !!!\n");*/
     } else {
+        printf("Turn off socket !!!\n");
 
         for (int i = pos; i < (*countUser) - 1; ++i) {
             listUser[i].user_id = listUser[i + 1].user_id;

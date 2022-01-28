@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include "cJSON.h"
 #include "handle_message.h"
-#include "handle_client.h"
 #include "string.h"
 #include <errno.h>
 #include <pthread.h>
@@ -59,6 +58,7 @@ int main(void) {
 
     char buffer[MAXLINE];
 
+
     //initialise all client_socket[] to 0 so not checked
     for (int i = 0; i < MAXCLIENT; i++)
     {
@@ -110,6 +110,7 @@ int main(void) {
     while (TRUE){
         //clear the socket set
         FD_ZERO(&readfds);
+        FD_ZERO(&writefds);
 
         //add master socket to set
         FD_SET(master_socket, &readfds);
@@ -124,7 +125,6 @@ int main(void) {
             //if valid socket descriptor then add to read list
             if(sd > 0)
                 FD_SET( sd , &readfds);
-
             //highest file descriptor number, need it for the select function
             if(sd > max_sd)
                 max_sd = sd;
@@ -132,7 +132,7 @@ int main(void) {
 
         //wait for an activity on one of the sockets , timeout is NULL ,
         //so wait indefinitely
-        int activity = select( max_sd + 1 , &readfds , NULL , NULL , NULL);
+        int activity = select( max_sd + 1 , &readfds , &writefds , NULL , NULL);
 
         if ((activity < 0) && (errno != EINTR))
         {
@@ -168,7 +168,7 @@ int main(void) {
         {
             int sd = client_socket[i];
 
-            if (FD_ISSET( sd , &readfds))
+            if (FD_ISSET( sd , &readfds) && !FD_ISSET(sd, &writefds))
             {
                 //Check if it was for closing , and also read the
                 //incoming message
@@ -180,9 +180,19 @@ int main(void) {
 						(socklen_t*)&addrlen);
                     printf("Host disconnected , ip %s , port %d \n" ,
                            inet_ntoa(address.sin_addr) , ntohs(address.sin_port));
-
+                    printf("Day la main\n");
                     //Close the socket and mark as 0 in list for reuse
-                    DeleteClientSocketID(sd, &count_user);
+                    if(SearchClientSocketID(sd, count_user) != -1){
+                        DeleteClientSocketID(sd, &count_user);
+                    }
+                    close( sd );
+                    client_socket[i] = 0;
+                }
+                else if(valread == -1){
+                    printf("Loi !!!\n");
+                    if(SearchClientSocketID(sd, count_user) != -1){
+                        DeleteClientSocketID(sd, &count_user);
+                    }
                     close( sd );
                     client_socket[i] = 0;
                 }
@@ -190,7 +200,6 @@ int main(void) {
                     //Echo back the message that came in
                 else
                 {
-
                     //set the string terminating NULL byte on the end
                     //of the data read
                     buffer[valread] = '\0';

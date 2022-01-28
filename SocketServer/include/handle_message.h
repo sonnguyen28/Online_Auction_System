@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include "cJSON.h"
 #include "handle_database.h"
+#include "handle_client.h"
 char *responseMess;
 
 int readCommand(char *messageFormClient);

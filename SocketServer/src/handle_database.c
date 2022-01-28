@@ -239,6 +239,7 @@ int addLotToList(float min_price, char title[255], char description[255], int ow
         printf("create lot that bai");
         return -1;
     } else{
+        currentListLots = (Lot *) realloc(currentListLots, (lotTotal + 1)*sizeof(Lot));
         currentListLots[lotTotal].lot_id = last_lotID;
         currentListLots[lotTotal].min_price = min_price;
         currentListLots[lotTotal].winning_bid = 0;
@@ -403,5 +404,65 @@ void lotHistory(int winning_bidder){
 void printListBids(){
     for (int i = 0; i < totalBidsHistory; ++i) {
         printf("|%d - %.2f - %d - %d|\n", listBidsHistory[i].bid_id, listBidsHistory[i].lot_id, listBidsHistory[i].bid_amount, listBidsHistory[i].bidder_user_id);
+    }
+}
+
+
+//handle Image
+int saveImage(int lotID, char image_name[255], char path_image[1024], int image_size){
+    connect_to_database();
+    char query[1024];
+    sprintf(query,"INSERT INTO images (lot_id, image_name, image_size, path_image) VALUES( %d, \'%s\', %d,\'%s\')",lotID,image_name, image_size, path_image);
+    if (mysql_query(conn,query))
+    {
+        printf("%s\n\n","Fail Saved image !!!");
+        finish_with_error(conn);
+        exit(1);
+    }else{
+        printf("%s\n\n","Saved image !!!");
+    }
+    int last_image_id = mysql_insert_id(conn);
+    close_connection();
+    return last_image_id;
+}
+
+void listPathImage(int lotID){
+    char query[1024];
+    listImage = NULL;
+    imageTotal = 0;
+    sprintf(query,"SELECT * FROM images WHERE lot_id = %d",lotID);
+    connect_to_database();
+    if (mysql_query(conn,query))
+    {
+        finish_with_error(conn);
+        exit(1);
+    }else {
+        res = mysql_store_result(conn);
+
+        if (res == NULL)
+        {
+            finish_with_error(conn);
+            exit(1);
+        }
+
+        while ((row = mysql_fetch_row(res)))
+        {
+            if(imageTotal == 0) listImage = (Image *) calloc(1, sizeof(Image));
+            else listImage = (Image *) realloc(listImage, (imageTotal + 1)*sizeof(Image));
+            listImage[imageTotal].image_id = atoi(row[0]);
+            listImage[imageTotal].lot_id = atoi(row[1]);
+            strcpy(listImage[imageTotal].image_name, (char *) row[2]);
+            listImage[imageTotal].image_size = atoi(row[3]);
+            strcpy(listImage[imageTotal].path_image, (char *) row[4]);
+            imageTotal++;
+        }
+        mysql_free_result(res);
+    }
+    close_connection();
+}
+
+void printListImage(){
+    for (int i = 0; i < imageTotal; ++i) {
+        printf("|%d - %d - %s|\n", listImage[i].image_id, listImage[i].lot_id, listImage[i].path_image);
     }
 }

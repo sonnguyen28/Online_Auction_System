@@ -14,6 +14,7 @@
 
 //set of socket descriptors
 fd_set readfds;
+fd_set writefds;
 #define MAXCLIENT 100
 
 typedef struct{
