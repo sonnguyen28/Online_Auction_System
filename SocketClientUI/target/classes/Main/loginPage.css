@@ -1,0 +1,11 @@
+.vbox_background_center {
+    -fx-background-image: url("./backgroundLogin.jpeg");
+}
+
+.button_signup {
+    -fx-background-color:transparent;
+}
+
+.login_backgroud {
+    -fx-background-color: #FFFFFF;
+}

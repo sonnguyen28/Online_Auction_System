@@ -1,4 +1,4 @@
-package org.socket.client;
+package Main;
 
 import com.google.gson.*;
 
@@ -11,9 +11,36 @@ public class Client {
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
-    private String username;
     private DataInputStream dataInputStream;
     private DataOutputStream out;
+    private int user_id;
+    private String receiveMessage;
+    private String sendMessage;
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getReceiveMessage() {
+        return receiveMessage;
+    }
+
+    public void setReceiveMessage(String receiveMessage) {
+        this.receiveMessage = receiveMessage;
+    }
+
+    public String getSendMessage() {
+        return sendMessage;
+    }
+
+    public void setSendMessage(String sendMessage) {
+        this.sendMessage = sendMessage;
+    }
+
     public Client (Socket socket){
         try {
             this.socket = socket;
@@ -21,15 +48,28 @@ public class Client {
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.dataInputStream = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
+            this.user_id = 0;
+            this.sendMessage = null;
+            this.receiveMessage = null;
             /*this.username = username;*/
         } catch (IOException e) {
             closeEverything(socket, bufferedReader, bufferedWriter);
         }
     }
 
+    public void createMessLogin(String username, String password) throws IOException {
+        JsonObject messJson = new JsonObject();
+        messJson.addProperty("command", 2);
+        messJson.addProperty("username", username);
+        messJson.addProperty("password", password);
+        Gson gson = new GsonBuilder().create();
+        String messToServer = gson.toJson(messJson, JsonObject.class);
+        setSendMessage(messToServer);
+    }
+
     public void  sendMessage(){
         try {
-            Scanner scanner = new Scanner(System.in);
+            /*Scanner scanner = new Scanner(System.in);
             String messageToSendv1 = "{\"command\":2,\"username\":\"sonnguyen\",\"password\":\"password\"}";
             System.out.println("Send to server: " + messageToSendv1);
             bufferedWriter.write(messageToSendv1);
@@ -37,10 +77,10 @@ public class Client {
             bufferedWriter.flush();
             File file = new File("/Users/sonnguyen/IdeaProjects/Multiple_Clients_Chat/SocketClient/src/image.jpeg");
             File file2 = new File("/Users/sonnguyen/IdeaProjects/Multiple_Clients_Chat/SocketClient/src/image1.jpeg");
-/*            String messageToSend = scanner.nextLine();
+*//*            String messageToSend = scanner.nextLine();
             bufferedWriter.write(messageToSend);
             bufferedWriter.newLine();
-            bufferedWriter.flush();*/
+            bufferedWriter.flush();*//*
             while (socket.isConnected()){
                 String messageToSend = scanner.nextLine();
                 bufferedWriter.write(messageToSend);
@@ -72,7 +112,7 @@ public class Client {
                     in2.close();
                 }
             }
-            /*JsonObject rootObject = new JsonObject();
+            *//*JsonObject rootObject = new JsonObject();
             rootObject.addProperty("command", 4);
             rootObject.addProperty("user_id", 1);
             rootObject.addProperty("title", "VINFAST-VF2");
@@ -109,8 +149,10 @@ public class Client {
             bufferedWriter.newLine();
             bufferedWriter.flush();*/
 
-
-
+            System.out.println("Send to server create lot: " + sendMessage);
+            bufferedWriter.write(sendMessage);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
 
         } catch (IOException e) {
             closeEverything(socket, bufferedReader, bufferedWriter);
@@ -128,23 +170,23 @@ public class Client {
         file.delete();
     }
 
-    public void listenForMessage(){
+    public void ListenMessage(){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String msgFromGroupChat;
 
                 while (socket.isConnected()){
                     try {
-                        msgFromGroupChat = bufferedReader.readLine();
-                        System.out.println("Lenght message: " + msgFromGroupChat.length());
-                        if(msgFromGroupChat == null) {
+                        receiveMessage = bufferedReader.readLine();
+                        //System.out.println("Lenght message: " + receiveMessage.length());
+                        if(receiveMessage == null) {
+                            System.out.println("Server sap !!!\n");
                             break;
                         };
-                        System.out.println("\nMessage from sever: " + msgFromGroupChat);
+                        System.out.println("\nMessage from sever: " + receiveMessage);
                         /*sendMessage();*/
-                        JsonObject jsonObject = new Gson().fromJson(msgFromGroupChat, JsonObject.class);
-                        if(msgFromGroupChat.equals("{\"command\":-2}")){
+                        JsonObject jsonObject = new Gson().fromJson(receiveMessage, JsonObject.class);
+                        if(receiveMessage.equals("{\"command\":-2}")){
                             System.out.println("Login fails");
                         }
 
@@ -180,7 +222,7 @@ public class Client {
                             }
                         }
                         if(jsonObject.get("command").getAsInt() == 2){
-                            JsonArray lots = jsonObject.getAsJsonArray("lots");
+                            /*JsonArray lots = jsonObject.getAsJsonArray("lots");
                             for (JsonElement lot : lots){
                                 JsonObject lotObj = (JsonObject) lot;
                                 int lotID = lotObj.get("lot_id").getAsInt();
@@ -212,7 +254,8 @@ public class Client {
                                     System.out.println("File OK current lot....");
                                     fileOutputStream.close();
                                 }
-                            }
+                            }*/
+                            App.setRoot("secondary");
                         }
                         if(jsonObject.get("command").getAsInt() == 6){
                             File pathDirImage = new File("./src/image");
@@ -248,13 +291,4 @@ public class Client {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-
-        Socket socket = new Socket("localhost", 8888);
-        Client client = new Client(socket);
-        client.listenForMessage();
-        client.sendMessage();
-
-    }
 }

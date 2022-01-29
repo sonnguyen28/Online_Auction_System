@@ -422,16 +422,18 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                     cJSON_AddItemToObject(imageJson, "image_size", cJSON_CreateNumber(listImage[i].image_size));
                 }
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
-                //sendALL();
-                sendOne(socketID);
-                while (1){
-                    if(!FD_ISSET(socketID, &writefds)){
-                        FD_SET(socketID, &writefds);
-                        sendImages(socketID, result);
-                        FD_CLR(socketID, &writefds);
-                        break;
-                    }else {
-                        printf("|Socket %d dang ban|\n", socketID);
+                sendALL();
+                //sendOne(socketID);
+                for (int i = 0; i < count_user; ++i) {
+                    while (1){
+                        if(!FD_ISSET(listUser[i].socket_id, &writefds)){
+                            FD_SET(listUser[i].socket_id, &writefds);
+                            sendImages(listUser[i].socket_id, result);
+                            FD_CLR(listUser[i].socket_id, &writefds);
+                            break;
+                        }else {
+                            printf("|Socket %d dang ban|\n", listUser[i].socket_id);
+                        }
                     }
                 }
             }else {
@@ -499,13 +501,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 responseMess = (char *) malloc(MAXLINE*sizeof (char ));
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
                 printf("Send to client: %s\n", responseMess);
-
-                // response message to client
-                responseMess[strlen(responseMess)+1] = '\0';
-                responseMess[strlen(responseMess)]='\n';
-                send(socketID , responseMess , strlen(responseMess) , 0 );
-                //memset(responseMess, '\0', MAXLINE);
-                free(responseMess);
+                sendOne(socketID);
                 printf("Dang xuat thanh cong !!!\n");
                 //CloseSocket(socketID); // Dang xuat nhung ko dong socket ket noi (De co the dang nhap lai)
             } else{
