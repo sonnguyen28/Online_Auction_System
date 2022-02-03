@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1315.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <HBox prefHeight="80.0" prefWidth="1315.0" style="-fx-background-color: #ffffff; -fx-border-width: 1; -fx-border-color: #F3F3F3;" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="157.0" text="Online Auciton" textFill="#e16c6c">
+               <font>
+                  <Font name="Phosphate Inline" size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Label>
+            <HBox prefHeight="80.0" prefWidth="566.0" HBox.hgrow="ALWAYS" />
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="208.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="149.0" text="sonnguyen">
+                     <font>
+                        <Font name="Hack Bold" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ImageView fitHeight="57.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../Library/Containers/com.visualpharm.Icons8AppWithContent/Data/Library/Caches/Pichon%20by%20Icons8/dragDrop/icons8-Color-23243-100-ffffff.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </top>
+   <left>
+      <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="178.0" spacing="20.0" style="-fx-border-color: #F3F3F3; -fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="188.0" prefWidth="176.0" />
+            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="144.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../Library/Containers/com.visualpharm.Icons8AppWithContent/Data/Library/Caches/Pichon%20by%20Icons8/dragDrop/icons8-Material%20Outlined-83326-100-171718.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="32.0" prefWidth="111.0" text="Home">
+                     <font>
+                        <Font name="Arial Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="144.0" spacing="10.0" style="-fx-background-color: #ffffff;">
+               <children>
+                  <ImageView fitHeight="32.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../Library/Containers/com.visualpharm.Icons8AppWithContent/Data/Library/Caches/Pichon%20by%20Icons8/dragDrop/icons8-Windows%2010-40097-100-171718.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="32.0" prefWidth="111.0" text="Add Item">
+                     <font>
+                        <Font name="Arial Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="144.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../Library/Containers/com.visualpharm.Icons8AppWithContent/Data/Library/Caches/Pichon%20by%20Icons8/dragDrop/icons8-Material%20Two%20Tone-89394-100-171718.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="32.0" prefWidth="111.0" text="History">
+                     <font>
+                        <Font name="Arial Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Pane prefHeight="200.0" prefWidth="200.0" />
+            <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="144.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="32.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../Library/Containers/com.visualpharm.Icons8AppWithContent/Data/Library/Caches/Pichon%20by%20Icons8/dragDrop/icons8-Windows%2010-22112-100-171718.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="32.0" prefWidth="111.0" text="Log out">
+                     <font>
+                        <Font name="Arial Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </left>
+</BorderPane>

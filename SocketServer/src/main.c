@@ -180,7 +180,6 @@ int main(void) {
 						(socklen_t*)&addrlen);
                     printf("Host disconnected , ip %s , port %d \n" ,
                            inet_ntoa(address.sin_addr) , ntohs(address.sin_port));
-                    printf("Day la main\n");
                     //Close the socket and mark as 0 in list for reuse
                     if(SearchClientSocketID(sd, count_user) != -1){
                         DeleteClientSocketID(sd, &count_user);

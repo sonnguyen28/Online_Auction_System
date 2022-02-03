@@ -30,7 +30,7 @@ public class Client {
     public void  sendMessage(){
         try {
             Scanner scanner = new Scanner(System.in);
-            String messageToSendv1 = "{\"command\":2,\"username\":\"sonnguyen\",\"password\":\"password\"}";
+            String messageToSendv1 = "{\"command\":2,\"username\":\"luan\",\"password\":\"password\"}";
             System.out.println("Send to server: " + messageToSendv1);
             bufferedWriter.write(messageToSendv1);
             bufferedWriter.newLine();

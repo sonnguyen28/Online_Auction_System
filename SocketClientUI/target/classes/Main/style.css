@@ -1,0 +1,28 @@
+.vbox_background_center {
+    -fx-background-image: url("backgroundLogin.jpeg");
+}
+
+.button_signup {
+    -fx-background-color:transparent;
+}
+
+.login_backgroud {
+    -fx-background-color: #FFFFFF;
+}
+
+.white-backgrould {
+    -fx-background-color: #FFFFFF;
+}
+
+.lot-item {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 30;
+}
+
+.transparent{
+    -fx-background-color: rgba(0,0,0,0);
+}
+
+.shadow {
+    -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.1), 10.0, 0.0, 0.0, 10.0);
+}

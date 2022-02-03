@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
    <right>
       <VBox alignment="TOP_CENTER" prefWidth="322.0" styleClass="login_backgroud" stylesheets="@loginPage.css" BorderPane.alignment="CENTER">
          <children>
@@ -21,7 +21,7 @@
                   <Image url="@image_login.png" />
                </image>
                <VBox.margin>
-                  <Insets top="30.0" />
+                  <Insets top="50.0" />
                </VBox.margin>
             </ImageView>
             <Label fx:id="errMessageLabel" alignment="CENTER" prefHeight="31.0" prefWidth="291.0" textFill="RED">
@@ -56,6 +56,9 @@
                      </font>
                   </Label>
                </children>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
             </VBox>
             <VBox prefHeight="95.0" prefWidth="322.0">
                <children>
@@ -84,7 +87,7 @@
                   <Font size="22.0" />
                </font>
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets top="20.0" />
                </VBox.margin>
             </Button>
          </children>
@@ -98,7 +101,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0" />
                   <HBox alignment="CENTER_RIGHT" prefHeight="88.0" prefWidth="260.0">
                      <children>
-                        <Button fx:id="btn_toRegister" mnemonicParsing="false" prefHeight="45.0" prefWidth="96.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" styleClass="button_signup" stylesheets="@loginPage.css" text="Sign Up">
+                        <Button mnemonicParsing="false" onAction="#changeRegisterPage" prefHeight="39.0" prefWidth="107.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" styleClass="button_signup" stylesheets="@loginPage.css" text="Register">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>

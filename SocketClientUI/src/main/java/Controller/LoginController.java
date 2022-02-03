@@ -2,21 +2,24 @@ package Controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.EventListener;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 import Main.App;
+import Model.Client;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import static Main.App.client;
+import static Main.App.myListener;
 
 public class LoginController implements Initializable {
 
@@ -42,11 +45,26 @@ public class LoginController implements Initializable {
         //To do
     }
 
-    public void loginButtonOnAction(ActionEvent event) throws IOException {
-        if (input_username.getText().isBlank() == false && input_password.getText().isBlank() == false){
-            /*if(validateLogin(input_username.getText(), input_password.getText())){
-                App.setRoot("secondary");
-            }*/
+    public void loginButtonOnAction(ActionEvent event) throws IOException, InterruptedException {
+        if (!input_username.getText().isBlank() && !input_password.getText().isBlank()){
+
+            client.sendMessgase(createLoginMess(input_username.getText(), input_password.getText()));
+            synchronized (myListener){
+                try{
+                    System.out.println("Waiting message from server ...");
+                    myListener.wait();
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+            }}
+            int command = myListener.getCommandMess();
+            if (command == 2){
+                client.setUser_name(input_username.getText());
+                App.resizeScene(1290, 870);
+                App.setRoot("homepage");
+            }
+            if(command == -2){
+                errMessageLabel.setText("Sai username hoặc password\nChú ý: tài khoản chỉ được đăng nhập một nơi");
+            }
         }
         else {
             if(input_username.getText().isBlank()){
@@ -58,6 +76,10 @@ public class LoginController implements Initializable {
         }
     }
 
+    public void changeRegisterPage(ActionEvent event) throws IOException {
+        App.setRoot("register");
+    }
+
     public void setOnClickInputUserName(MouseEvent event){
         errMessageLabel.setText("");
         errMessageUserName.setText("");
@@ -66,10 +88,17 @@ public class LoginController implements Initializable {
         errMessageLabel.setText("");
         errMessagePassword.setText("");
     }
+    public String createLoginMess(String username, String password){
+        JsonObject messJson = new JsonObject();
+        messJson.addProperty("command", 2);
+        messJson.addProperty("username", username);
+        messJson.addProperty("password", password);
 
-    public boolean validateLogin(String username, String password) throws IOException {
-        client.createMessLogin(username, password);
+        Gson gson = new GsonBuilder().create();
+        String loginMess = gson.toJson(messJson, JsonObject.class);
+        return loginMess;
     }
+
 
 
 }

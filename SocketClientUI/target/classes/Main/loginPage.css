@@ -1,5 +1,5 @@
 .vbox_background_center {
-    -fx-background-image: url("./backgroundLogin.jpeg");
+    -fx-background-image: url("backgroundLogin.jpeg");
 }
 
 .button_signup {
@@ -8,4 +8,8 @@
 
 .login_backgroud {
     -fx-background-color: #FFFFFF;
+}
+
+.white-backgrould {
+    -fx-background-color: #fff;
 }

@@ -1,4 +1,6 @@
-package Main;
+package Model;
+
+import java.util.List;
 
 public class Lot {
     private int lot_id;
@@ -10,6 +12,7 @@ public class Lot {
     private int owner_id;
     private String time_start; //2021-12-20 09:49:00
     private String time_stop; //2021-12-25 10:00:00
+    private List<ImageLot> imageLots;
 
     public Lot(int lot_id, String title, String description, float min_price, float winning_bid, int winning_bidder, int owner_id, String time_start, String time_stop) {
         this.lot_id = lot_id;
@@ -93,5 +96,28 @@ public class Lot {
 
     public void setTime_stop(String time_stop) {
         this.time_stop = time_stop;
+    }
+
+    public List<ImageLot> getImages() {
+        return imageLots;
+    }
+
+    public void setImages(List<ImageLot> imageLots) {
+        this.imageLots = imageLots;
+    }
+
+    @Override
+    public String toString() {
+        return "Lot{" +
+                "lot_id=" + lot_id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", min_price=" + min_price +
+                ", winning_bid=" + winning_bid +
+                ", winning_bidder=" + winning_bidder +
+                ", owner_id=" + owner_id +
+                ", time_start='" + time_start + '\'' +
+                ", time_stop='" + time_stop + '\'' +
+                '}';
     }
 }

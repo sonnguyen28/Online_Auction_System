@@ -248,12 +248,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
             // Convert Json to string
             responseMess = (char *) malloc(MAXLINE*sizeof (char ));
             responseMess = cJSON_PrintUnformatted(responseMessJson);
-            printf("Send to client: %s\n", responseMess);
-            // response message to client
-            responseMess[strlen(responseMess)+1] = '\0';
-            responseMess[strlen(responseMess)]='\n';
-            send(socketID , responseMess , strlen(responseMess) , 0 );
-            memset(responseMess, '\0', MAXLINE);
+            sendOne(socketID);
             break;
 
             //LOGIN
@@ -288,6 +283,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                     cJSON_AddItemToObject(lotJson, "lot_id", cJSON_CreateNumber(currentListLots[i].lot_id));
                     cJSON_AddItemToObject(lotJson, "title", cJSON_CreateString(currentListLots[i].title));
                     cJSON_AddItemToObject(lotJson, "description", cJSON_CreateString(currentListLots[i].description));
+                    cJSON_AddItemToObject(lotJson, "min_price", cJSON_CreateNumber(currentListLots[i].min_price));
                     cJSON_AddItemToObject(lotJson, "winning_bid", cJSON_CreateNumber(currentListLots[i].winning_bid));
                     cJSON_AddItemToObject(lotJson, "winning_bidder", cJSON_CreateNumber(currentListLots[i].winning_bidder));
                     cJSON_AddItemToObject(lotJson, "owner_id",cJSON_CreateNumber(currentListLots[i].owner_id));
