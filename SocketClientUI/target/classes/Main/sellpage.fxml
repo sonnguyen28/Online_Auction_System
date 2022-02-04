@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -64,7 +70,7 @@
                         <Image url="@icon/icons8-Material%20Sharp-Time%20Machine.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="btnHistoryPage" prefHeight="29.0" prefWidth="106.0" text="History" textFill="#5a5a5a">
+                  <Label fx:id="btnHistoryPage" onMouseClicked="#changeHistoryPage" prefHeight="29.0" prefWidth="106.0" text="History" textFill="#5a5a5a">
                      <font>
                         <Font name="Arial Bold" size="20.0" />
                      </font>
@@ -113,9 +119,9 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="238.0" prefWidth="1115.0" style="-fx-background-color: #ffffff;">
+            <HBox alignment="CENTER" prefHeight="125.0" prefWidth="1055.0" style="-fx-background-color: #ffffff;">
                <children>
-                  <VBox alignment="CENTER" prefHeight="151.0" prefWidth="530.0">
+                  <VBox alignment="CENTER" prefHeight="101.0" prefWidth="530.0">
                      <children>
                         <Label alignment="CENTER" prefHeight="67.0" prefWidth="293.0" text="Welcome to&#10;Online Auction System" textAlignment="CENTER">
                            <font>
@@ -135,6 +141,155 @@
                      </image>
                   </ImageView>
                </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="604.0" prefWidth="1055.0">
+               <children>
+                  <VBox prefHeight="604.0" prefWidth="470.0" spacing="10.0" stylesheets="@style.css">
+                     <styleClass>
+                        <String fx:value="lot-item" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="70.0" prefWidth="430.0" spacing="20.0">
+                           <children>
+                              <ImageView fitHeight="61.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icon/icons8-Cute%20Color-Price%20Tag.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="430.0" spacing="20.0">
+                           <children>
+                              <Label text="Title: ">
+                                 <font>
+                                    <Font name="Arial Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="inputTitle" prefHeight="25.0" prefWidth="306.0" style="-fx-background-radius: 50 50 50 50;" stylesheets="@style.css">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="12.0" prefWidth="430.0">
+                           <children>
+                              <Label fx:id="errTitleField" prefHeight="17.0" prefWidth="129.0" text="This field is required *" textFill="RED">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <VBox prefHeight="104.0" prefWidth="430.0" spacing="5.0">
+                           <children>
+                              <Label prefHeight="35.0" prefWidth="190.0" text="Description:">
+                                 <font>
+                                    <Font name="Arial Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextArea fx:id="inputDescription" prefHeight="123.0" prefWidth="430.0" />
+                              <HBox alignment="CENTER" prefHeight="12.0" prefWidth="430.0">
+                                 <children>
+                                    <Label fx:id="errDescriptionField" prefHeight="17.0" prefWidth="129.0" text="This field is required *" textFill="RED">
+                                       <font>
+                                          <Font size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="40.0" prefWidth="430.0" spacing="10.0">
+                           <children>
+                              <Label prefHeight="35.0" prefWidth="162.0" text="Time Stop:">
+                                 <font>
+                                    <Font name="Arial Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                                 <children>
+                                    <Label text="Hour:" />
+                                    <ComboBox fx:id="inputHour" prefHeight="26.0" prefWidth="76.0" style="-fx-border-width: 1; -fx-border-color: #F4F4F4;" styleClass="white-backgrould" stylesheets="@style.css" />
+                                    <Label text="Minutes:" />
+                                    <ComboBox fx:id="inputMinutes" prefHeight="26.0" prefWidth="74.0" style="-fx-border-width: 1; -fx-border-color: #F4F4F4;" styleClass="transparent" />
+                                    <Label text="Seconds:" />
+                                    <ComboBox fx:id="inputSecondes" prefHeight="26.0" prefWidth="79.0" style="-fx-border-color: #F4F4F4; -fx-border-width: 1;" styleClass="transparent" stylesheets="@style.css" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <DatePicker fx:id="inputDate" prefHeight="26.0" prefWidth="209.0" stylesheets="@style.css" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <HBox alignment="CENTER" prefHeight="12.0" prefWidth="430.0">
+                           <children>
+                              <Label fx:id="errTimeField" prefHeight="15.0" prefWidth="85.0" text="Invalid time !!!" textFill="RED">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <VBox alignment="TOP_RIGHT" prefHeight="163.0" prefWidth="430.0" spacing="5.0">
+                           <children>
+                              <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                 <content>
+                                    <TextArea fx:id="litstImage" disable="true" prefHeight="99.0" prefWidth="424.0" />
+                                 </content>
+                              </ScrollPane>
+                              <HBox alignment="CENTER" prefHeight="12.0" prefWidth="430.0">
+                                 <children>
+                                    <Label fx:id="errImage" prefHeight="15.0" prefWidth="128.0" text="Add at least one photo !!!" textFill="RED">
+                                       <font>
+                                          <Font size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                 <children>
+                                    <ImageView fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icon/icons8-Fluency%20System%20Regular-Image.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="btnAddImage" prefHeight="26.0" prefWidth="83.0" style="-fx-background-color: #F4F4F4; -fx-background-radius: 50 50 50 50;" stylesheets="@style.css" text="Add image">
+                                       <padding>
+                                          <Insets bottom="5.0" left="8.0" right="8.0" top="5.0" />
+                                       </padding>
+                                       <font>
+                                          <Font name="Arial Bold" size="13.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <HBox alignment="CENTER" prefHeight="106.0" prefWidth="430.0" spacing="5.0">
+                           <children>
+                              <Label fx:id="btnSell" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #4DCDAE; -fx-background-radius: 50 50 50 50;" stylesheets="@style.css" text="SELL" textFill="#2c2c2c">
+                                 <padding>
+                                    <Insets bottom="5.0" left="30.0" right="30.0" top="5.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="Arial Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
             </HBox>
          </children>
          <padding>

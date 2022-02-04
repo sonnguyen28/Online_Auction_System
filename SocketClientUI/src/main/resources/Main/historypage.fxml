@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="870.0" prefWidth="1290.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HomeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="870.0" prefWidth="1290.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HistoryController">
    <left>
       <VBox prefHeight="200.0" prefWidth="175.0" spacing="20.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
          <children>
@@ -32,14 +32,14 @@
                </children>
             </VBox>
             <Pane prefHeight="142.0" prefWidth="175.0" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="175.0" spacing="10.0" style="-fx-background-color: #F4F4F4; -fx-background-radius: 50 0 0 50;">
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="175.0" spacing="10.0">
                <children>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@icon/icons8-Windows%2010-Home.png" />
                      </image>
                   </ImageView>
-                  <Label prefHeight="29.0" prefWidth="106.0" text="Home" textFill="#5a5a5a">
+                  <Label onMouseClicked="#changeHomePage" prefHeight="29.0" prefWidth="106.0" text="Home" textFill="#5a5a5a">
                      <font>
                         <Font name="Arial Bold" size="20.0" />
                      </font>
@@ -60,14 +60,14 @@
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="104.0" spacing="10.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="104.0" spacing="10.0" style="-fx-background-color: #F4F4F4 #F4F4F4; -fx-background-radius: 50 0 0 50;">
                <children>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@icon/icons8-Material%20Sharp-Time%20Machine.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="btnHistoryPage" onMouseClicked="#changeHistoryPage" prefHeight="29.0" prefWidth="106.0" text="History" textFill="#5a5a5a">
+                  <Label fx:id="btnHistoryPage" prefHeight="29.0" prefWidth="106.0" text="History" textFill="#5a5a5a">
                      <font>
                         <Font name="Arial Bold" size="20.0" />
                      </font>

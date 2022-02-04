@@ -25,6 +25,7 @@ public class App extends Application {
     private static Scene scene;
     public static Client client;
     public static List<Lot> lotList;
+    public static List<Lot> lotHistoryList;
     public static MyListener myListener;
 
     private static Stage stage;
@@ -37,7 +38,7 @@ public class App extends Application {
         final double initialSceneWidth = 800;
         final double initialSceneHeight = 560;
         this.stage = stage;
-        scene = new Scene(loadFXML("login"), initialSceneWidth, initialSceneHeight);
+        scene = new Scene(loadFXML("sellpage"), initialSceneWidth, initialSceneHeight);
         stage.setTitle("Auction");
         stage.setScene(scene);
         stage.show();

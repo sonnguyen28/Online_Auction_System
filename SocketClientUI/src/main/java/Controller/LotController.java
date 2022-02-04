@@ -20,11 +20,17 @@ public class LotController {
     @FXML
     private Label priceLabel;
 
+    @FXML
+    private Label labelTimeStop;
+
     private Lot lot;
 
-    public void setData(Lot lot){
+    public void setData(int code, Lot lot){
         this.lot = lot;
 
+        if(code == 1){
+            labelTimeStop.setText(lot.getTime_stop());
+        }
         nameLabel.setText(lot.getTitle());
         if (lot.getMin_price() < lot.getWinning_bid()){
             priceLabel.setText(App.CURRENCY + lot.getWinning_bid());

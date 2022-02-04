@@ -403,6 +403,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 cJSON_AddItemToObject(lotJson, "lot_id", cJSON_CreateNumber(currentListLots[indexLot].lot_id));
                 cJSON_AddItemToObject(lotJson, "title", cJSON_CreateString(currentListLots[indexLot].title));
                 cJSON_AddItemToObject(lotJson, "description", cJSON_CreateString(currentListLots[indexLot].description));
+                cJSON_AddItemToObject(lotJson, "min_price", cJSON_CreateNumber(currentListLots[indexLot].min_price));
                 cJSON_AddItemToObject(lotJson, "winning_bid", cJSON_CreateNumber(currentListLots[indexLot].winning_bid));
                 cJSON_AddItemToObject(lotJson, "winning_bidder", cJSON_CreateNumber(currentListLots[indexLot].winning_bidder));
                 cJSON_AddItemToObject(lotJson, "owner_id",cJSON_CreateNumber(currentListLots[indexLot].owner_id));
@@ -465,11 +466,22 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                     cJSON_AddItemToObject(lotJson, "lot_id", cJSON_CreateNumber(listLotsHistory[i].lot_id));
                     cJSON_AddItemToObject(lotJson, "title", cJSON_CreateString(listLotsHistory[i].title));
                     cJSON_AddItemToObject(lotJson, "description", cJSON_CreateString(listLotsHistory[i].description));
+                    cJSON_AddItemToObject(lotJson, "min_price", cJSON_CreateNumber(listLotsHistory[i].min_price));
                     cJSON_AddItemToObject(lotJson, "winning_bid", cJSON_CreateNumber(listLotsHistory[i].winning_bid));
                     cJSON_AddItemToObject(lotJson, "winning_bidder", cJSON_CreateNumber(listLotsHistory[i].winning_bidder));
                     cJSON_AddItemToObject(lotJson, "owner_id",cJSON_CreateNumber(listLotsHistory[i].owner_id));
                     cJSON_AddItemToObject(lotJson, "time_start",cJSON_CreateString(convertTimeToString(listLotsHistory[i].start_time)));
                     cJSON_AddItemToObject(lotJson, "time_stop",cJSON_CreateString(convertTimeToString(listLotsHistory[i].stop_time)));
+
+                    listPathImage(listLotsHistory[i].lot_id);
+                    cJSON *imagesJson = cJSON_CreateArray();
+                    cJSON_AddItemToObject(lotJson, "images", imagesJson);
+                    cJSON *imageJson;
+                    for (int i = 0; i < imageTotal; i ++){
+                        cJSON_AddItemToArray(imagesJson, imageJson = cJSON_CreateObject());
+                        cJSON_AddItemToObject(imageJson, "image_name", cJSON_CreateString(listImage[i].image_name));
+                        cJSON_AddItemToObject(imageJson, "image_size", cJSON_CreateNumber(listImage[i].image_size));
+                    }
                 }
             } else{
 
@@ -480,9 +492,25 @@ void handleRequest(int command, char *messageFromClient, int socketID){
             // Convert Json to string
             responseMess = (char *) malloc(MAXLINE*sizeof (char ));
             responseMess = cJSON_PrintUnformatted(responseMessJson);
-            printf("Send to client: %s\n", responseMess);
             // response message to client
             sendOne(socketID);
+            //send image list
+            if(lotTotalHistory != 0){
+                while (1){
+                    if(!FD_ISSET(socketID, &writefds)){
+                        FD_SET(socketID, &writefds);
+                        // Send image to one client
+                        for (int i = 0; i < lotTotalHistory; ++i) {
+                            listPathImage(listLotsHistory[i].lot_id);
+                            sendImages(socketID, listLotsHistory[i].lot_id);
+                        }
+                        //FD_CLR(socketID, &writefds);
+                        break;
+                    }else {
+                        printf("|Socket %d dang ban|\n", socketID);
+                    }
+                }
+            }
             break;
 
         case 6:

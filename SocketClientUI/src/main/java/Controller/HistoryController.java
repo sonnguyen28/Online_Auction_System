@@ -5,7 +5,6 @@ import Model.Lot;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,7 +27,7 @@ import static Main.App.*;
 import static Main.App.myListener;
 
 
-public class HomeController implements Initializable {
+public class HistoryController implements Initializable {
 
     @FXML
     private GridPane grid;
@@ -74,33 +73,35 @@ public class HomeController implements Initializable {
         int column = 0;
         int row = 1;
         try {
-            for (int i = 0; i < lotList.size(); i++) {
+            if(lotHistoryList.size() != 0){
+                for (int i = 0; i < lotHistoryList.size(); i++) {
 
-                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("lot.fxml"));
-                AnchorPane anchorPane = fxmlLoader.load();
+                    FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("lot.fxml"));
+                    AnchorPane anchorPane = fxmlLoader.load();
 
-                LotController lotController = fxmlLoader.getController();
-                lotController.setData(0, lotList.get(i));
+                    LotController lotController = fxmlLoader.getController();
+                    lotController.setData(1, lotHistoryList.get(i));
 
 
-                if(column == 4){
-                    column = 0;
-                    row++;
+                    if(column == 4){
+                        column = 0;
+                        row++;
+                    }
+
+
+                    grid.add(anchorPane, column++, row);
+                    //set grid width
+                    grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                    grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                    grid.setMaxWidth(Region.USE_PREF_SIZE);
+
+                    //set grid height
+                    grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                    grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                    grid.setMaxHeight(Region.USE_PREF_SIZE);
+
+                    GridPane.setMargin(anchorPane, new Insets(20));
                 }
-
-
-                grid.add(anchorPane, column++, row);
-                //set grid width
-                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                grid.setMaxWidth(Region.USE_PREF_SIZE);
-
-                //set grid height
-                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                grid.setMaxHeight(Region.USE_PREF_SIZE);
-
-                GridPane.setMargin(anchorPane, new Insets(20));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,19 +112,8 @@ public class HomeController implements Initializable {
         App.setRoot("sellpage");
     }
 
-    public void changeHistoryPage() throws IOException {
-        client.sendMessgase(createHistoryMess());
-        synchronized (myListener){
-            try{
-                System.out.println("Waiting message from server ...");
-                myListener.wait();
-            }catch(InterruptedException e){
-                e.printStackTrace();
-            }}
-        int command = myListener.getCommandMess();
-        if (command == 5){
-            App.setRoot("historypage");
-        }
+    public void changeHomePage() throws IOException {
+        App.setRoot("homepage");
     }
 
     public void logout() throws IOException {
@@ -150,6 +140,7 @@ public class HomeController implements Initializable {
         }
     }
 
+
     public String createLogoutMess(){
         JsonObject messJson = new JsonObject();
         messJson.addProperty("command", 6);
@@ -158,15 +149,5 @@ public class HomeController implements Initializable {
         Gson gson = new GsonBuilder().create();
         String logoutMess = gson.toJson(messJson, JsonObject.class);
         return logoutMess;
-    }
-
-    public String createHistoryMess(){
-        JsonObject messJson = new JsonObject();
-        messJson.addProperty("command", 5);
-        messJson.addProperty("user_id", client.getUser_id());
-
-        Gson gson = new GsonBuilder().create();
-        String historyMess = gson.toJson(messJson, JsonObject.class);
-        return historyMess;
     }
 }

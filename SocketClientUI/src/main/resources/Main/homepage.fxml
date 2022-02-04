@@ -67,7 +67,7 @@
                         <Image url="@icon/icons8-Material%20Sharp-Time%20Machine.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="btnHistoryPage" prefHeight="29.0" prefWidth="106.0" text="History" textFill="#5a5a5a">
+                  <Label fx:id="btnHistoryPage" onMouseClicked="#changeHistoryPage" prefHeight="29.0" prefWidth="106.0" text="History" textFill="#5a5a5a">
                      <font>
                         <Font name="Arial Bold" size="20.0" />
                      </font>
