@@ -38,7 +38,7 @@ public class App extends Application {
         final double initialSceneWidth = 800;
         final double initialSceneHeight = 560;
         this.stage = stage;
-        scene = new Scene(loadFXML("sellpage"), initialSceneWidth, initialSceneHeight);
+        scene = new Scene(loadFXML("login"), initialSceneWidth, initialSceneHeight);
         stage.setTitle("Auction");
         stage.setScene(scene);
         stage.show();

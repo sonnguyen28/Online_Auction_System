@@ -161,12 +161,12 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="430.0" spacing="20.0">
                            <children>
-                              <Label text="Title: ">
+                              <Label prefHeight="16.0" prefWidth="61.0" text="Title: ">
                                  <font>
                                     <Font name="Arial Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="inputTitle" prefHeight="25.0" prefWidth="306.0" style="-fx-background-radius: 50 50 50 50;" stylesheets="@style.css">
+                              <TextField fx:id="inputTitle" prefHeight="25.0" prefWidth="306.0" stylesheets="@style.css">
                                  <font>
                                     <Font size="12.0" />
                                  </font>
@@ -180,6 +180,20 @@
                                     <Font size="12.0" />
                                  </font>
                               </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="430.0" spacing="20.0">
+                           <children>
+                              <Label text="Min Price:">
+                                 <font>
+                                    <Font name="Arial Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="inputMinPrice" prefHeight="23.0" prefWidth="119.0" stylesheets="@style.css">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </TextField>
                            </children>
                         </HBox>
                         <VBox prefHeight="104.0" prefWidth="430.0" spacing="5.0">
@@ -269,7 +283,7 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <HBox alignment="CENTER" prefHeight="106.0" prefWidth="430.0" spacing="5.0">
+                        <HBox alignment="CENTER" prefHeight="106.0" prefWidth="444.0" spacing="5.0">
                            <children>
                               <Label fx:id="btnSell" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #4DCDAE; -fx-background-radius: 50 50 50 50;" stylesheets="@style.css" text="SELL" textFill="#2c2c2c">
                                  <padding>

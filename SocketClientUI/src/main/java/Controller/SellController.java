@@ -69,6 +69,9 @@ public class SellController implements Initializable {
     @FXML
     private TextArea litstImage;
 
+    @FXML
+    private TextField inputMinPrice;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
