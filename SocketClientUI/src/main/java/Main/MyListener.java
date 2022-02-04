@@ -63,9 +63,60 @@ public class MyListener extends Thread{
         file.delete();
     }
 
+    public Lot getLotInfo(JsonObject lotObj){
+        int lotID = lotObj.get("lot_id").getAsInt();
+        String title = lotObj.get("title").getAsString();
+        String description = lotObj.get("description").getAsString();
+        float min_price = lotObj.get("min_price").getAsFloat();
+        float winning_bid = lotObj.get("winning_bid").getAsFloat();
+        int winning_bidder = lotObj.get("owner_id").getAsInt();
+        int owner_id = lotObj.get("owner_id").getAsInt();
+        String time_start = lotObj.get("time_start").getAsString();
+        String time_stop = lotObj.get("time_stop").getAsString();
+        Lot newLot = new Lot(lotID, title, description,min_price, winning_bid, winning_bidder,owner_id, time_start, time_stop);
+        List<ImageLot> newImageListLot = new ArrayList<ImageLot>();
+        JsonArray images = lotObj.getAsJsonArray("images");
+        File theDir = new File("src/main/resources/Main/image/" + lotID);
+        if (!theDir.exists()){
+            theDir.mkdirs();
+        }else{
+            deleteDir(theDir);
+            theDir.mkdirs();
+        }
+        for (JsonElement image : images) {
+            JsonObject objImage = (JsonObject) image;
+            String fileName = objImage.get("image_name").getAsString();
+            int fileSize = objImage.get("image_size").getAsInt();
+            System.out.println("|" + fileName + " - " + lotID + " - " + fileSize + "|");
+            int bytes = 0;
+            File file = new File("src/main/resources/Main/image/" + lotID + "/" + fileName);
+            if(file.exists() && !file.isDirectory()) {
+                file.delete();
+            }
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream("src/main/resources/Main/image/" + lotID + "/" + fileName);
+                long size = fileSize;
+                byte[] buffer = new byte[16 * 1024];
+                while (size > 0 && (bytes = dataInputStream.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
+                    fileOutputStream.write(buffer, 0, bytes);
+                    size -= bytes;      // read upto file size
+                }
+                System.out.println("File OK current lot....");
+                ImageLot img = new ImageLot(fileName, fileSize, "src/main/resources/Main/image/" + lotID + "/" + fileName);
+                newImageListLot.add(img);
+                fileOutputStream.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        newLot.setImages(newImageListLot);
+        return newLot;
+    }
+
     public void autoHandleMessage(){
         JsonObject recvMessJson = new Gson().fromJson(receiveMessage, JsonObject.class);
         int command = getCommandMess();
+        JsonObject lotObj;
         switch (command){
             case 2:
                 int clientID = recvMessJson.get("user_id").getAsInt();
@@ -73,63 +124,16 @@ public class MyListener extends Thread{
                 lotList = new ArrayList<Lot>();
                 JsonArray lots = recvMessJson.getAsJsonArray("lots");
                 for (JsonElement lot : lots){
-                    JsonObject lotObj = (JsonObject) lot;
-                    int lotID = lotObj.get("lot_id").getAsInt();
-                    String title = lotObj.get("title").getAsString();
-                    String description = lotObj.get("description").getAsString();
-                    float min_price = lotObj.get("min_price").getAsFloat();
-                    float winning_bid = lotObj.get("winning_bid").getAsFloat();
-                    int winning_bidder = lotObj.get("owner_id").getAsInt();
-                    int owner_id = lotObj.get("owner_id").getAsInt();
-                    String time_start = lotObj.get("time_start").getAsString();
-                    String time_stop = lotObj.get("time_stop").getAsString();
-                    Lot newLot = new Lot(lotID, title, description,min_price, winning_bid, winning_bidder,owner_id, time_start, time_stop);
-                    List<ImageLot> newImageListLot = new ArrayList<ImageLot>();
-                    JsonArray images = lotObj.getAsJsonArray("images");
-                    File theDir = new File("src/main/resources/Main/image/" + lotID);
-                    if (!theDir.exists()){
-                        theDir.mkdirs();
-                    }else{
-                        deleteDir(theDir);
-                        theDir.mkdirs();
-                    }
-                    for (JsonElement image : images) {
-                        JsonObject objImage = (JsonObject) image;
-                        String fileName = objImage.get("image_name").getAsString();
-                        int fileSize = objImage.get("image_size").getAsInt();
-                        System.out.println("|" + fileName + " - " + lotID + " - " + fileSize + "|");
-                        int bytes = 0;
-                        File file = new File("src/main/resources/Main/image/" + lotID + "/" + fileName);
-                        if(file.exists() && !file.isDirectory()) {
-                            file.delete();
-                        }
-                        try {
-                            FileOutputStream fileOutputStream = new FileOutputStream("src/main/resources/Main/image/" + lotID + "/" + fileName);
-                            long size = fileSize;
-                            byte[] buffer = new byte[16 * 1024];
-                            while (size > 0 && (bytes = dataInputStream.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
-                                fileOutputStream.write(buffer, 0, bytes);
-                                size -= bytes;      // read upto file size
-                            }
-                            System.out.println("File OK current lot....");
-                            ImageLot img = new ImageLot(fileName, fileSize, "src/main/resources/Main/image/" + lotID + "/" + fileName);
-                            newImageListLot.add(img);
-                            fileOutputStream.close();
-                        } catch (IOException e){
-                            e.printStackTrace();
-                        }
-                    }
-                    newLot.setImages(newImageListLot);
-                    lotList.add(newLot);
-                }
-                for (Lot lot: lotList) {
-                    System.out.println(lot.toString());
-                    for (ImageLot img: lot.getImages()) {
-                        System.out.println(img.toString());
-                    }
+                    lotObj = (JsonObject) lot;
+                    lotList.add(getLotInfo(lotObj));
                 }
                 break;
             case -2:
+                break;
+
+            case 4:
+                lotObj = recvMessJson.getAsJsonObject("lot");
+                lotList.add(getLotInfo(lotObj));
                 break;
 
             case 5:
@@ -137,60 +141,8 @@ public class MyListener extends Thread{
                 JsonArray lotsHistory = recvMessJson.getAsJsonArray("lots");
                 if (lotsHistory.size() != 0) {
                     for (JsonElement lot : lotsHistory){
-                        JsonObject lotObj = (JsonObject) lot;
-                        int lotID = lotObj.get("lot_id").getAsInt();
-                        String title = lotObj.get("title").getAsString();
-                        String description = lotObj.get("description").getAsString();
-                        float min_price = lotObj.get("min_price").getAsFloat();
-                        float winning_bid = lotObj.get("winning_bid").getAsFloat();
-                        int winning_bidder = lotObj.get("owner_id").getAsInt();
-                        int owner_id = lotObj.get("owner_id").getAsInt();
-                        String time_start = lotObj.get("time_start").getAsString();
-                        String time_stop = lotObj.get("time_stop").getAsString();
-                        Lot newLot = new Lot(lotID, title, description,min_price, winning_bid, winning_bidder,owner_id, time_start, time_stop);
-                        List<ImageLot> newImageListLot = new ArrayList<ImageLot>();
-                        JsonArray images = lotObj.getAsJsonArray("images");
-                        File theDir = new File("src/main/resources/Main/image/" + lotID);
-                        if (!theDir.exists()){
-                            theDir.mkdirs();
-                        }else{
-                            deleteDir(theDir);
-                            theDir.mkdirs();
-                        }
-                        for (JsonElement image : images) {
-                            JsonObject objImage = (JsonObject) image;
-                            String fileName = objImage.get("image_name").getAsString();
-                            int fileSize = objImage.get("image_size").getAsInt();
-                            System.out.println("|" + fileName + " - " + lotID + " - " + fileSize + "|");
-                            int bytes = 0;
-                            File file = new File("src/main/resources/Main/image/" + lotID + "/" + fileName);
-                            if(file.exists() && !file.isDirectory()) {
-                                file.delete();
-                            }
-                            try {
-                                FileOutputStream fileOutputStream = new FileOutputStream("src/main/resources/Main/image/" + lotID + "/" + fileName);
-                                long size = fileSize;
-                                byte[] buffer = new byte[16 * 1024];
-                                while (size > 0 && (bytes = dataInputStream.read(buffer, 0, (int) Math.min(buffer.length, size))) != -1) {
-                                    fileOutputStream.write(buffer, 0, bytes);
-                                    size -= bytes;      // read upto file size
-                                }
-                                System.out.println("File OK current lot....");
-                                ImageLot img = new ImageLot(fileName, fileSize, "src/main/resources/Main/image/" + lotID + "/" + fileName);
-                                newImageListLot.add(img);
-                                fileOutputStream.close();
-                            } catch (IOException e){
-                                e.printStackTrace();
-                            }
-                        }
-                        newLot.setImages(newImageListLot);
-                        lotHistoryList.add(newLot);
-                    }
-                    for (Lot lot: lotHistoryList) {
-                        System.out.println(lot.toString());
-                        for (ImageLot img: lot.getImages()) {
-                            System.out.println(img.toString());
-                        }
+                        lotObj = (JsonObject) lot;
+                        lotHistoryList.add(getLotInfo(lotObj));
                     }
                 }
                 break;
@@ -206,11 +158,14 @@ public class MyListener extends Thread{
                 receiveMessage = bufferedReader.readLine();
                 System.out.println("\nMessage from sever: " + receiveMessage);
                 autoHandleMessage();
+                sleep(100);
                 synchronized (this){
                     notify();
                 }
             } catch (IOException e) {
                 closeListener(socket, bufferedReader);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

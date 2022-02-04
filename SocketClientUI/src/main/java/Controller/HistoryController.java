@@ -18,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,6 +106,8 @@ public class HistoryController implements Initializable {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
     }
 
@@ -117,7 +120,13 @@ public class HistoryController implements Initializable {
     }
 
     public void logout() throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Logout " + " ?", ButtonType.YES, ButtonType.CANCEL);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
+        alert.setTitle("Confirm Logout");
+
+        // Header Text: null
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to Logout ?");
+
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES) {

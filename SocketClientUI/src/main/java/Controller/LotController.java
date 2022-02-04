@@ -8,6 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 public class LotController {
 
@@ -25,7 +27,7 @@ public class LotController {
 
     private Lot lot;
 
-    public void setData(int code, Lot lot){
+    public void setData(int code, Lot lot) throws URISyntaxException {
         this.lot = lot;
 
         if(code == 1){
@@ -44,7 +46,12 @@ public class LotController {
         File folder = new File(pathImageList);
         File[] listOfFiles = folder.listFiles();
 
-        Image img = new Image(String.valueOf(App.class.getResource("image/" + lot.getLot_id() + "/" + listOfFiles[0].getName())));
+        Image img = null;
+        try {
+            img = new Image(listOfFiles[0].toURI().toURL().toExternalForm());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         image.setImage(img);
     }
 

@@ -32,6 +32,10 @@ public class App extends Application {
     private static double decorationWidth;
     private static double decorationHeight;
 
+    public static Stage getStage() {
+        return stage;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
 

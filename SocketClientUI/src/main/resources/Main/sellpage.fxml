@@ -93,6 +93,9 @@
                </children>
             </HBox>
          </children>
+         <padding>
+            <Insets bottom="30.0" />
+         </padding>
       </VBox>
    </left>
    <center>
@@ -116,33 +119,10 @@
                   </ImageView>
                </children>
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="125.0" prefWidth="1055.0" style="-fx-background-color: #ffffff;">
-               <children>
-                  <VBox alignment="CENTER" prefHeight="101.0" prefWidth="530.0">
-                     <children>
-                        <Label alignment="CENTER" prefHeight="67.0" prefWidth="293.0" text="Welcome to&#10;Online Auction System" textAlignment="CENTER">
-                           <font>
-                              <Font name="Arial Bold" size="20.0" />
-                           </font>
-                        </Label>
-                        <Label text="We are happy to see you here">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-                  <ImageView fitHeight="98.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@%5Bremoval.ai%5D_tmp-61fba84db2f3d.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="604.0" prefWidth="1055.0">
+            <HBox alignment="TOP_CENTER" prefHeight="731.0" prefWidth="1055.0">
                <children>
                   <VBox prefHeight="604.0" prefWidth="470.0" spacing="10.0" stylesheets="@style.css">
                      <styleClass>
@@ -159,14 +139,14 @@
                               </ImageView>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="430.0" spacing="20.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="430.0">
                            <children>
-                              <Label prefHeight="16.0" prefWidth="61.0" text="Title: ">
+                              <Label prefHeight="16.0" prefWidth="74.0" text="Title: ">
                                  <font>
                                     <Font name="Arial Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="inputTitle" prefHeight="25.0" prefWidth="306.0" stylesheets="@style.css">
+                              <TextField fx:id="inputTitle" prefHeight="25.0" prefWidth="307.0" stylesheets="@style.css">
                                  <font>
                                     <Font size="12.0" />
                                  </font>
@@ -182,9 +162,9 @@
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="430.0" spacing="20.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="430.0">
                            <children>
-                              <Label text="Min Price:">
+                              <Label prefHeight="16.0" prefWidth="73.0" text="Min Price:">
                                  <font>
                                     <Font name="Arial Bold" size="13.0" />
                                  </font>
@@ -194,6 +174,23 @@
                                     <Font size="12.0" />
                                  </font>
                               </TextField>
+                              <Label prefHeight="17.0" prefWidth="17.0" text="\$">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="Arial" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="12.0" prefWidth="430.0">
+                           <children>
+                              <Label fx:id="errMinPrice" prefHeight="17.0" prefWidth="129.0" text="This field is required *" textFill="RED">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </HBox>
                         <VBox prefHeight="104.0" prefWidth="430.0" spacing="5.0">
@@ -252,7 +249,7 @@
                            <children>
                               <ScrollPane prefHeight="200.0" prefWidth="200.0">
                                  <content>
-                                    <TextArea fx:id="litstImage" disable="true" prefHeight="99.0" prefWidth="424.0" />
+                                    <TextArea fx:id="listImage" disable="true" prefHeight="109.0" prefWidth="428.0" />
                                  </content>
                               </ScrollPane>
                               <HBox alignment="CENTER" prefHeight="12.0" prefWidth="430.0">
@@ -285,7 +282,7 @@
                         </VBox>
                         <HBox alignment="CENTER" prefHeight="106.0" prefWidth="444.0" spacing="5.0">
                            <children>
-                              <Label fx:id="btnSell" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #4DCDAE; -fx-background-radius: 50 50 50 50;" stylesheets="@style.css" text="SELL" textFill="#2c2c2c">
+                              <Label fx:id="btnSell" onMouseClicked="#sellButtonOnAction" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #4DCDAE; -fx-background-radius: 50 50 50 50;" stylesheets="@style.css" text="SELL" textFill="#2c2c2c">
                                  <padding>
                                     <Insets bottom="5.0" left="30.0" right="30.0" top="5.0" />
                                  </padding>
