@@ -1,11 +1,13 @@
 package Controller;
 
 import Main.App;
+import Model.DataModel;
 import Model.Lot;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -52,6 +54,9 @@ public class HomeController implements Initializable {
 
     private List<Lot> lots = new ArrayList<>();
 
+    private int column;
+    private int row;
+
     private List<Lot> getData(){
         Lot lot;
 /*
@@ -67,21 +72,25 @@ public class HomeController implements Initializable {
         return lots;
     }
 
+    private DataModel dataModelHome;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         labelUserName.setText(client.getUser_name());
         //lots.addAll(getData());
 
-        int column = 0;
-        int row = 1;
+        this.dataModelHome = dataModel;
+
+        column = 0;
+        row = 1;
         try {
-            for (int i = 0; i < lotList.size(); i++) {
+            for (int i = 0; i < dataModelHome.getLotListOb().size(); i++) {
 
                 FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("lot.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 LotController lotController = fxmlLoader.getController();
-                lotController.setData(0, lotList.get(i));
+                lotController.setData(0, dataModelHome.getLotListOb().get(i));
 
 
                 if(column == 4){
@@ -108,6 +117,49 @@ public class HomeController implements Initializable {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+
+        dataModelHome.getLotListOb().addListener(new ListChangeListener() {
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("lot.fxml"));
+                            AnchorPane anchorPane = fxmlLoader.load();
+
+                            LotController lotController = fxmlLoader.getController();
+                            lotController.setData(0, dataModelHome.getLotListOb().get(dataModelHome.getLotListOb().size()-1));
+
+
+                            if(column == 4){
+                                column = 0;
+                                row++;
+                            }
+
+
+                            grid.add(anchorPane, column++, row);
+                            //set grid width
+                            grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                            grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                            grid.setMaxWidth(Region.USE_PREF_SIZE);
+
+                            //set grid height
+                            grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                            grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                            grid.setMaxHeight(Region.USE_PREF_SIZE);
+
+                            GridPane.setMargin(anchorPane, new Insets(20));
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     public void changeSellPage() throws IOException {

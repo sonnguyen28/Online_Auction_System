@@ -425,7 +425,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                     while (1){
                         if(!FD_ISSET(listUser[i].socket_id, &writefds)){
                             FD_SET(listUser[i].socket_id, &writefds);
-
+                            sendImages(listUser[i].socket_id,result);
                             FD_CLR(listUser[i].socket_id, &writefds);
                             break;
                         }else {

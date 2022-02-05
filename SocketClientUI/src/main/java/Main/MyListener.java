@@ -134,6 +134,9 @@ public class MyListener extends Thread{
             case 4:
                 lotObj = recvMessJson.getAsJsonObject("lot");
                 lotList.add(getLotInfo(lotObj));
+                System.out.println(dataModel.getLotListOb().size());
+                dataModel.getLotListOb().add(lotList.get(lotList.size()-1));
+                System.out.println(dataModel.getLotListOb().size());
                 break;
 
             case 5:

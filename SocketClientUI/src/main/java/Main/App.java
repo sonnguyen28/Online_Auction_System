@@ -1,6 +1,7 @@
 package Main;
 
 import Model.Client;
+import Model.DataModel;
 import Model.Lot;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -22,11 +23,13 @@ public class App extends Application {
 
     public static final String CURRENCY = "$";
 
-    private static Scene scene;
+    public static Scene scene;
     public static Client client;
     public static List<Lot> lotList;
     public static List<Lot> lotHistoryList;
     public static MyListener myListener;
+
+    public static DataModel dataModel;
 
     private static Stage stage;
     private static double decorationWidth;
