@@ -2,7 +2,6 @@ module org.example {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.google.gson;
-    requires jfoenix;
 
     opens Main to javafx.fxml;
     exports Main;
