@@ -7,12 +7,13 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
-import static Main.App.lotList;
-
 public class DataModel {
-    private ObservableList<Lot> lotListOb = FXCollections.observableArrayList();
+    private ObservableList<Lot> lotListOb;
+
+    private ObservableList<Lot> lotHistoryListOb;
 
     private ObjectProperty<Lot> currentLotOb = new SimpleObjectProperty<>(null);
+
 
     public ObservableList<Lot> getLotListOb() {
         return lotListOb;
@@ -30,10 +31,15 @@ public class DataModel {
         this.currentLotOb.set(currentLotOb);
     }
 
-    public void loadData(){
-        for (int i = 0; i < lotList.size(); i++) {
-            lotListOb.add(lotList.get(i));
-        }
+    public void setLotListOb(ArrayList<Lot> listLot){
+        lotListOb = FXCollections.observableArrayList(listLot);
     }
 
+    public void setlotHistoryListOb(ArrayList<Lot> lotHistoryList){
+        lotHistoryListOb = FXCollections.observableArrayList(lotHistoryList);
+    }
+
+    public ObservableList<Lot> getLotHistoryListOb() {
+        return lotHistoryListOb;
+    }
 }

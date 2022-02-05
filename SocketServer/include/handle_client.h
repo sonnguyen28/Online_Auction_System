@@ -38,4 +38,5 @@ int SearchClientUserID(int userID, int countUser);
 int DeleteClientUserID(int userID, int *countUser);
 int SearchClientSocketID(int socketID, int countUser);
 int DeleteClientSocketID(int socketID, int *countUser);
+int checkUserRunning(int userID);
 void CloseSocket(int socketID);

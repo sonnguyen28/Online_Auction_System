@@ -25,8 +25,6 @@ public class App extends Application {
 
     public static Scene scene;
     public static Client client;
-    public static List<Lot> lotList;
-    public static List<Lot> lotHistoryList;
     public static MyListener myListener;
 
     public static DataModel dataModel;

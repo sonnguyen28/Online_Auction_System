@@ -21,7 +21,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="87.0" prefWidth="212.0" AnchorPane.bottomAnchor="20.0">
                      <children>
-                        <Label fx:id="labelTimeStop" prefHeight="17.0" prefWidth="125.0" />
+                        <Label fx:id="labelTimeStop" prefHeight="17.0" prefWidth="133.0" />
                         <Label fx:id="nameLabel" alignment="CENTER" prefHeight="51.0" prefWidth="206.0" text="Iphone 11">
                            <font>
                               <Font name="Arial" size="14.0" />

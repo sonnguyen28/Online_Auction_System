@@ -3,17 +3,14 @@ package Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Stream;
 
 import Main.App;
-import Model.Client;
 import Model.DataModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -61,9 +58,6 @@ public class LoginController implements Initializable {
             if (command == 2){
                 client.setUser_name(input_username.getText());
                 App.resizeScene(1290, 870);
-
-                dataModel = new DataModel();
-                dataModel.loadData();
 
                 App.setRoot("homepage");
             }

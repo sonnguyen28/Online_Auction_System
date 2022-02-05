@@ -33,6 +33,13 @@ int AddClient(int userID, int socketID, int *countUser){
     return (*countUser);
 }
 
+int checkUserRunning(int userID){
+    for (int i = 0; i < count_user; ++i) {
+        if(listUser[i].user_id == userID) return 0; // Phat hien user da login o noi khac
+    }
+    return 1;
+}
+
 
 int SearchClientUserID(int UserID, int countUser){
     for (int i = 0; i < countUser; ++i) {

@@ -48,13 +48,6 @@ void printClient(){
     }
 }
 
-int checkUserRunning(int userID){
-    for (int i = 0; i < count_user; ++i) {
-        if(listUser[i].user_id == userID) return 0; // Phat hien user da login o noi khac
-    }
-    return 1;
-}
-
 Lot readInfoLot(char *messageFromClient) // Dung de doc message cua chuc nang create Lot
 {
     Lot newLot;

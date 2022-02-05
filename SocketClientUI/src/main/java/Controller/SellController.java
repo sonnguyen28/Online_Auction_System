@@ -7,7 +7,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -155,7 +154,7 @@ public class SellController implements Initializable {
             if (command == 6){
                 client.setUser_name("");
                 client.setUser_id(0);
-                lotList = null;
+                dataModel = null;
                 App.resizeScene(800, 560);
                 App.setRoot("login");
             }

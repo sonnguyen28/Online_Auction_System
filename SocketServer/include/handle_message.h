@@ -15,8 +15,8 @@ char *responseMess;
 
 int readCommand(char *messageFormClient);
 void handleRequest(int command, char *messageFromClient, int socketID);
-int checkUserRunning(int userID);
 Lot readInfoLot(char *messageFormClient);
 void printClient();
 void sendALL();
 void sendOne(int socketID);
+void sendImages(int socketID, int lotID);

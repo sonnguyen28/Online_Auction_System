@@ -124,33 +124,38 @@ public class HomeController implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        grid.getChildren().clear();
+                        column = 0;
+                        row = 1;
                         try {
-                            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("lot.fxml"));
-                            AnchorPane anchorPane = fxmlLoader.load();
+                            for (int i = 0; i < dataModelHome.getLotListOb().size(); i++) {
 
-                            LotController lotController = fxmlLoader.getController();
-                            lotController.setData(0, dataModelHome.getLotListOb().get(dataModelHome.getLotListOb().size()-1));
+                                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("lot.fxml"));
+                                AnchorPane anchorPane = fxmlLoader.load();
+
+                                LotController lotController = fxmlLoader.getController();
+                                lotController.setData(0, dataModelHome.getLotListOb().get(i));
 
 
-                            if(column == 4){
-                                column = 0;
-                                row++;
+                                if(column == 4){
+                                    column = 0;
+                                    row++;
+                                }
+
+
+                                grid.add(anchorPane, column++, row);
+                                //set grid width
+                                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                                grid.setMaxWidth(Region.USE_PREF_SIZE);
+
+                                //set grid height
+                                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                                grid.setMaxHeight(Region.USE_PREF_SIZE);
+
+                                GridPane.setMargin(anchorPane, new Insets(20));
                             }
-
-
-                            grid.add(anchorPane, column++, row);
-                            //set grid width
-                            grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                            grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                            grid.setMaxWidth(Region.USE_PREF_SIZE);
-
-                            //set grid height
-                            grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                            grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                            grid.setMaxHeight(Region.USE_PREF_SIZE);
-
-                            GridPane.setMargin(anchorPane, new Insets(20));
-
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (URISyntaxException e) {
@@ -204,7 +209,7 @@ public class HomeController implements Initializable {
             if (command == 6){
                 client.setUser_name("");
                 client.setUser_id(0);
-                lotList = null;
+                dataModel = null;
                 App.resizeScene(800, 560);
                 App.setRoot("login");
             }

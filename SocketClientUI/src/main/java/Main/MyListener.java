@@ -1,5 +1,6 @@
 package Main;
 
+import Model.DataModel;
 import Model.ImageLot;
 import Model.Lot;
 import com.google.gson.Gson;
@@ -119,28 +120,29 @@ public class MyListener extends Thread{
         JsonObject lotObj;
         switch (command){
             case 2:
+                dataModel = new DataModel();
                 int clientID = recvMessJson.get("user_id").getAsInt();
                 client.setUser_id(clientID);
-                lotList = new ArrayList<Lot>();
+                List<Lot> lotList = new ArrayList<Lot>();
                 JsonArray lots = recvMessJson.getAsJsonArray("lots");
                 for (JsonElement lot : lots){
                     lotObj = (JsonObject) lot;
                     lotList.add(getLotInfo(lotObj));
                 }
+                dataModel.setLotListOb((ArrayList<Lot>) lotList);
                 break;
             case -2:
                 break;
 
             case 4:
                 lotObj = recvMessJson.getAsJsonObject("lot");
-                lotList.add(getLotInfo(lotObj));
                 System.out.println(dataModel.getLotListOb().size());
-                dataModel.getLotListOb().add(lotList.get(lotList.size()-1));
+                dataModel.getLotListOb().add(getLotInfo(lotObj));
                 System.out.println(dataModel.getLotListOb().size());
                 break;
 
             case 5:
-                lotHistoryList = new ArrayList<Lot>();
+                List<Lot> lotHistoryList = new ArrayList<Lot>();
                 JsonArray lotsHistory = recvMessJson.getAsJsonArray("lots");
                 if (lotsHistory.size() != 0) {
                     for (JsonElement lot : lotsHistory){
@@ -148,8 +150,27 @@ public class MyListener extends Thread{
                         lotHistoryList.add(getLotInfo(lotObj));
                     }
                 }
+                dataModel.setlotHistoryListOb((ArrayList<Lot>) lotHistoryList);
                 break;
             case -5:
+                break;
+
+            case 7:
+                System.out.println("Hello");
+                lotObj = recvMessJson.getAsJsonObject("lot");
+                Lot lot_tmp = getLotInfo(lotObj);
+                int index_lot = 0;
+                for (int i = 0; i < dataModel.getLotListOb().size(); i++) {
+                    if(lot_tmp.getLot_id() == dataModel.getLotListOb().get(i).getLot_id()){
+                        index_lot = i;
+                        break;
+                    }
+                }
+                System.out.println(index_lot);
+                dataModel.getLotListOb().remove(index_lot);
+                if(dataModel.getLotHistoryListOb() != null){
+                    dataModel.getLotHistoryListOb().add(lot_tmp);
+                }
                 break;
         }
     }

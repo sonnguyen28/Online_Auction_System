@@ -23,9 +23,9 @@ void *threadTime(void *data){
             char start_time[20];
             sprintf(start_time, "%.4d-%.2d-%.2d %.2d:%.2d:%.2d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
                     tm.tm_hour, tm.tm_min, tm.tm_sec);
-            printf("|%s|-|%s|\n", start_time, convertTimeToString(currentListLots[i].stop_time));
+           // printf("|%s|-|%s|\n", start_time, convertTimeToString(currentListLots[i].stop_time));
             if (difftime(currentListLots[i].stop_time, t) <= 0) {
-                DeleteLotInList(currentListLots[i].lot_id);
+
                 printf("Lot %d het han !!!\n", currentListLots[i].lot_id);
                 int response_command = 7;
                 cJSON *commandJson = cJSON_CreateNumber(response_command);
@@ -36,13 +36,33 @@ void *threadTime(void *data){
                 cJSON_AddItemToObject(lotJson, "lot_id", cJSON_CreateNumber(currentListLots[i].lot_id));
                 cJSON_AddItemToObject(lotJson, "title", cJSON_CreateString(currentListLots[i].title));
                 cJSON_AddItemToObject(lotJson, "description", cJSON_CreateString(currentListLots[i].description));
+                cJSON_AddItemToObject(lotJson, "min_price", cJSON_CreateNumber(currentListLots[i].min_price));
                 cJSON_AddItemToObject(lotJson, "winning_bid", cJSON_CreateNumber(currentListLots[i].winning_bid));
                 cJSON_AddItemToObject(lotJson, "winning_bidder", cJSON_CreateNumber(currentListLots[i].winning_bidder));
                 cJSON_AddItemToObject(lotJson, "owner_id",cJSON_CreateNumber(currentListLots[i].owner_id));
                 cJSON_AddItemToObject(lotJson, "time_start",cJSON_CreateString(convertTimeToString(currentListLots[i].start_time)));
                 cJSON_AddItemToObject(lotJson, "time_stop",cJSON_CreateString(convertTimeToString(currentListLots[i].stop_time)));
+
+                listPathImage(currentListLots[i].lot_id);
+                cJSON *imagesJson = cJSON_CreateArray();
+                cJSON_AddItemToObject(lotJson, "images", imagesJson);
+                cJSON *imageJson;
+                for (int i = 0; i < imageTotal; i ++){
+                    cJSON_AddItemToArray(imagesJson, imageJson = cJSON_CreateObject());
+                    cJSON_AddItemToObject(imageJson, "image_name", cJSON_CreateString(listImage[i].image_name));
+                    cJSON_AddItemToObject(imageJson, "image_size", cJSON_CreateNumber(listImage[i].image_size));
+                }
+
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
-                sendALL();
+
+                if(checkUserRunning(currentListLots[i].winning_bidder) == 0) // 0 : user running
+                {
+                    printf("Hello user runing !!!");
+                    int socketID = listUser[SearchClientUserID(currentListLots[i].winning_bidder, count_user)].socket_id;
+                    sendOne(socketID);
+                    sendImages(socketID, currentListLots[i].lot_id);
+                    DeleteLotInList(currentListLots[i].lot_id);
+                }
             }
         }
         sleep(1);
@@ -104,9 +124,9 @@ int main(void) {
     // Load data for the first time
     available_lots();
     printfListLot();
-   /* // Tao thread bo dem thoi gian
+    // Tao thread bo dem thoi gian
     pthread_t thread_time;
-    pthread_create(&thread_time, NULL, threadTime, (void *)&thread_time);*/
+    pthread_create(&thread_time, NULL, threadTime, (void *)&thread_time);
     while (TRUE){
         //clear the socket set
         FD_ZERO(&readfds);
