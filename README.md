@@ -2,7 +2,6 @@
 
 # Cmake file of Ubuntu
 
-[21:41] NGUYEN BA LUAN 20184147
 cmake_minimum_required(VERSION 3.21)
 
 project(SocketServer C) set(CMAKE_C_STANDARD 99) #
