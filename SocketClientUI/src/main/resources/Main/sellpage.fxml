@@ -245,23 +245,23 @@
                               </Label>
                            </children>
                         </HBox>
-                        <VBox alignment="TOP_RIGHT" prefHeight="163.0" prefWidth="430.0" spacing="5.0">
+                        <VBox alignment="TOP_RIGHT" prefHeight="205.0" prefWidth="430.0" spacing="5.0">
                            <children>
-                              <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                              <ScrollPane prefHeight="125.0" prefWidth="430.0">
                                  <content>
                                     <TextArea fx:id="listImage" disable="true" prefHeight="109.0" prefWidth="428.0" />
                                  </content>
                               </ScrollPane>
-                              <HBox alignment="CENTER" prefHeight="12.0" prefWidth="430.0">
+                              <HBox alignment="CENTER" prefHeight="61.0" prefWidth="430.0">
                                  <children>
-                                    <Label fx:id="errImage" prefHeight="15.0" prefWidth="128.0" textFill="RED">
+                                    <Label fx:id="errImage" alignment="CENTER" contentDisplay="CENTER" prefHeight="57.0" prefWidth="358.0" textFill="RED">
                                        <font>
                                           <Font size="12.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                              <HBox alignment="CENTER_RIGHT" prefHeight="57.0" prefWidth="430.0" spacing="5.0">
                                  <children>
                                     <ImageView fitHeight="23.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -280,7 +280,7 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <HBox alignment="CENTER" prefHeight="106.0" prefWidth="444.0" spacing="5.0">
+                        <HBox alignment="CENTER" prefHeight="77.0" prefWidth="430.0" spacing="5.0">
                            <children>
                               <Label fx:id="btnSell" onMouseClicked="#sellButtonOnAction" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #4DCDAE; -fx-background-radius: 50 50 50 50;" stylesheets="@style.css" text="SELL" textFill="#2c2c2c">
                                  <padding>

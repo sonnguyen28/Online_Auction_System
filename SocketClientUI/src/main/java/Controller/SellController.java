@@ -86,6 +86,8 @@ public class SellController implements Initializable {
 
     private List<File> fileList;
 
+    private int checkFileStatus;
+
 
     private void printLog(TextArea textArea, List<File> files) {
         if (files == null || files.isEmpty()) {
@@ -127,6 +129,7 @@ public class SellController implements Initializable {
                 fileList = fileChooser.showOpenMultipleDialog(getStage());
 
                 printLog(listImage, fileList);
+                checkFileStatus = checkFileList(fileList);
             }
         });
 
@@ -207,7 +210,7 @@ public class SellController implements Initializable {
         if (!inputTitle.getText().isBlank() && !inputDescription.getText().isBlank() &&
                 (!inputMinPrice.getText().isBlank() && checkFloat(inputMinPrice.getText()))&&
                 (inputDate.getValue()!= null && checkValidTime(strTime))
-                && (fileList != null && fileList.size()>0 && checkFileList(fileList) == 1) ){
+                && (fileList != null && fileList.size()>0 && checkFileStatus == 1) ){
 //            System.out.println(inputDate.getValue() + " " + inputHour.getValue() + ":" +
 //                    inputMinutes.getValue() + ":" + inputSecondes.getValue());
             client.sendMessgase(createSellItemMess());
@@ -328,7 +331,7 @@ public class SellController implements Initializable {
         String str = "";
         for (File file : files) {
             if(!isImage(file)){
-                str += file.getName() + " ";
+                str += file.getName() + "\n";
             }
         }
         if(str != ""){

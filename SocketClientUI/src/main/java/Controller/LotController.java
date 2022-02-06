@@ -39,7 +39,6 @@ public class LotController {
 
     @FXML
     void clickLot(MouseEvent event) throws IOException {
-        System.out.println("Hello");
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("lotdetail.fxml"));
         BorderPane borderPane = fxmlLoader.load();
 
