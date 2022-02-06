@@ -146,7 +146,7 @@
                                     <Font name="Arial Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="inputTitle" prefHeight="25.0" prefWidth="307.0" stylesheets="@style.css">
+                              <TextField fx:id="inputTitle" onMouseClicked="#setOnClickInputTitle" prefHeight="25.0" prefWidth="307.0" stylesheets="@style.css">
                                  <font>
                                     <Font size="12.0" />
                                  </font>
@@ -155,7 +155,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="12.0" prefWidth="430.0">
                            <children>
-                              <Label fx:id="errTitleField" prefHeight="17.0" prefWidth="129.0" text="This field is required *" textFill="RED">
+                              <Label fx:id="errTitleField" prefHeight="17.0" prefWidth="129.0" textFill="RED">
                                  <font>
                                     <Font size="12.0" />
                                  </font>
@@ -169,7 +169,7 @@
                                     <Font name="Arial Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="inputMinPrice" prefHeight="23.0" prefWidth="119.0" stylesheets="@style.css">
+                              <TextField fx:id="inputMinPrice" onMouseClicked="#setOnClickInputMinPrice" prefHeight="23.0" prefWidth="119.0" stylesheets="@style.css">
                                  <font>
                                     <Font size="12.0" />
                                  </font>
@@ -186,7 +186,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="12.0" prefWidth="430.0">
                            <children>
-                              <Label fx:id="errMinPrice" prefHeight="17.0" prefWidth="129.0" text="This field is required *" textFill="RED">
+                              <Label fx:id="errMinPrice" prefHeight="17.0" prefWidth="129.0" textFill="RED">
                                  <font>
                                     <Font size="12.0" />
                                  </font>
@@ -200,10 +200,10 @@
                                     <Font name="Arial Bold" size="14.0" />
                                  </font>
                               </Label>
-                              <TextArea fx:id="inputDescription" prefHeight="123.0" prefWidth="430.0" />
+                              <TextArea fx:id="inputDescription" onMouseClicked="#setOnClickInputDescription" prefHeight="123.0" prefWidth="430.0" />
                               <HBox alignment="CENTER" prefHeight="12.0" prefWidth="430.0">
                                  <children>
-                                    <Label fx:id="errDescriptionField" prefHeight="17.0" prefWidth="129.0" text="This field is required *" textFill="RED">
+                                    <Label fx:id="errDescriptionField" prefHeight="17.0" prefWidth="129.0" textFill="RED">
                                        <font>
                                           <Font size="12.0" />
                                        </font>
@@ -231,14 +231,14 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <DatePicker fx:id="inputDate" prefHeight="26.0" prefWidth="209.0" stylesheets="@style.css" />
+                                    <DatePicker fx:id="inputDate" onMouseClicked="#setOnClickPickTime" prefHeight="26.0" prefWidth="209.0" stylesheets="@style.css" />
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
                         <HBox alignment="CENTER" prefHeight="12.0" prefWidth="430.0">
                            <children>
-                              <Label fx:id="errTimeField" prefHeight="15.0" prefWidth="85.0" text="Invalid time !!!" textFill="RED">
+                              <Label fx:id="errTimeField" prefHeight="15.0" prefWidth="131.0" textFill="RED">
                                  <font>
                                     <Font size="12.0" />
                                  </font>
@@ -254,7 +254,7 @@
                               </ScrollPane>
                               <HBox alignment="CENTER" prefHeight="12.0" prefWidth="430.0">
                                  <children>
-                                    <Label fx:id="errImage" prefHeight="15.0" prefWidth="128.0" text="Add at least one photo !!!" textFill="RED">
+                                    <Label fx:id="errImage" prefHeight="15.0" prefWidth="128.0" textFill="RED">
                                        <font>
                                           <Font size="12.0" />
                                        </font>

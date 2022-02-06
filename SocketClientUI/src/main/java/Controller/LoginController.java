@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Main.App;
-import Model.DataModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -57,7 +56,7 @@ public class LoginController implements Initializable {
             int command = myListener.getCommandMess();
             if (command == 2){
                 client.setUser_name(input_username.getText());
-                App.resizeScene(1290, 870);
+                App.resizeScene(1290, 900);
 
                 App.setRoot("homepage");
             }

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="870.0" prefWidth="1290.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TestHomeController">
+   <left>
+      <VBox prefHeight="200.0" prefWidth="175.0" spacing="20.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" prefHeight="98.0" prefWidth="175.0">
+               <children>
+                  <ImageView fitHeight="114.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icon/icons8-Cloud-Auction.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" prefHeight="72.0" prefWidth="220.0" text="Online Auction" textFill="#e87b7b">
+                     <font>
+                        <Font name="Tinos Bold for Powerline" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <Pane prefHeight="142.0" prefWidth="175.0" />
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="175.0" spacing="10.0" style="-fx-background-color: #F4F4F4; -fx-background-radius: 50 0 0 50;">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icon/icons8-Windows%2010-Home.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="29.0" prefWidth="106.0" text="Home" textFill="#5a5a5a">
+                     <font>
+                        <Font name="Arial Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="104.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icon/icons8-Material%20Outlined-Create%20Order.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="btnSellPage" onMouseClicked="#changeSellPage" prefHeight="29.0" prefWidth="106.0" text="Sell" textFill="#5a5a5a">
+                     <font>
+                        <Font name="Arial Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="104.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icon/icons8-Material%20Sharp-Time%20Machine.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="btnHistoryPage" onMouseClicked="#changeHistoryPage" prefHeight="29.0" prefWidth="106.0" text="History" textFill="#5a5a5a">
+                     <font>
+                        <Font name="Arial Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Pane prefHeight="200.0" prefWidth="200.0" />
+            <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="104.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icon/icons8-Fluency%20System%20Filled-Logout.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="btnLogout" onMouseClicked="#logout" prefHeight="29.0" prefWidth="106.0" text="Logout" textFill="#5a5a5a">
+                     <font>
+                        <Font name="Arial Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="65.0" prefWidth="1055.0" spacing="10.0" style="-fx-border-color: #F4F4F4; -fx-border-width: 1;">
+               <children>
+                  <HBox prefHeight="61.0" prefWidth="811.0" />
+                  <Label fx:id="labelUserName" alignment="CENTER_RIGHT" prefHeight="29.0" prefWidth="232.0">
+                     <font>
+                        <Font name="Arial Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icon/icons8-Color-Circled%20User%20Male%20Skin%20Type%204.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="238.0" prefWidth="1115.0" style="-fx-background-color: #ffffff;">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="151.0" prefWidth="530.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="67.0" prefWidth="293.0" text="Welcome to&#10;Online Auction System" textAlignment="CENTER">
+                           <font>
+                              <Font name="Arial Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label text="We are happy to see you here">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="98.0" fitWidth="210.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@%5Bremoval.ai%5D_tmp-61fba84db2f3d.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="735.0" prefWidth="1115.0">
+               <children>
+                  <ScrollPane fx:id="scroll" prefHeight="605.0" prefWidth="1044.0">
+                     <content>
+                        <GridPane fx:id="grid" prefHeight="62.0" prefWidth="58.0">
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                     </content>
+                     <HBox.margin>
+                        <Insets bottom="20.0" />
+                     </HBox.margin>
+                  </ScrollPane>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+</BorderPane>

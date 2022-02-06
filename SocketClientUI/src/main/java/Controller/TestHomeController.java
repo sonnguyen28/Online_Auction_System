@@ -28,10 +28,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static Main.App.*;
-import static Main.App.myListener;
 
 
-public class HomeController implements Initializable {
+public class TestHomeController implements Initializable {
 
     @FXML
     private GridPane grid;
@@ -107,7 +106,7 @@ public class HomeController implements Initializable {
 
                 //set grid height
                 grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
                 grid.setMaxHeight(Region.USE_PREF_SIZE);
 
                 GridPane.setMargin(anchorPane, new Insets(20));
@@ -118,10 +117,9 @@ public class HomeController implements Initializable {
             e.printStackTrace();
         }
 
-
         dataModelHome.getLotListOb().addListener(new ListChangeListener() {
             @Override
-            public void onChanged(ListChangeListener.Change change) {
+            public void onChanged(Change change) {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
@@ -156,7 +154,6 @@ public class HomeController implements Initializable {
                                 grid.setMaxHeight(Region.USE_PREF_SIZE);
 
                                 GridPane.setMargin(anchorPane, new Insets(20));
-
                             }
                         } catch (IOException e) {
                             e.printStackTrace();

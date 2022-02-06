@@ -1,7 +1,9 @@
 package Model;
 
+import javafx.beans.Observable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -12,23 +14,8 @@ public class DataModel {
 
     private ObservableList<Lot> lotHistoryListOb;
 
-    private ObjectProperty<Lot> currentLotOb = new SimpleObjectProperty<>(null);
-
-
     public ObservableList<Lot> getLotListOb() {
         return lotListOb;
-    }
-
-    public Lot getCurrentLotOb() {
-        return currentLotOb.get();
-    }
-
-    public ObjectProperty<Lot> currentLotObProperty() {
-        return currentLotOb;
-    }
-
-    public void setCurrentLotOb(Lot currentLotOb) {
-        this.currentLotOb.set(currentLotOb);
     }
 
     public void setLotListOb(ArrayList<Lot> listLot){
@@ -42,4 +29,5 @@ public class DataModel {
     public ObservableList<Lot> getLotHistoryListOb() {
         return lotHistoryListOb;
     }
+
 }

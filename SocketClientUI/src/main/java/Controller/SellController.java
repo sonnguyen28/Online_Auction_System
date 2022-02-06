@@ -13,9 +13,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
 
 import java.io.*;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -118,6 +122,7 @@ public class SellController implements Initializable {
         btnAddImage.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                errImage.setText("");
                 listImage.clear();
                 fileList = fileChooser.showOpenMultipleDialog(getStage());
 
@@ -196,11 +201,15 @@ public class SellController implements Initializable {
         return historyMess;
     }
 
-    public void sellButtonOnAction(MouseEvent event) throws IOException {
+    public void sellButtonOnAction(MouseEvent event) throws IOException, ParseException {
+        String strTime = inputDate.getValue() + " " + inputHour.getValue() + ":" +
+                inputMinutes.getValue() + ":" + inputSecondes.getValue();
         if (!inputTitle.getText().isBlank() && !inputDescription.getText().isBlank() &&
-            !inputMinPrice.getText().isBlank() && inputDate.getValue()!= null && (fileList != null && fileList.size()>0) ){
-            /*System.out.println(inputDate.getValue() + " " + inputHour.getValue() + ":" +
-                    inputMinutes.getValue() + ":" + inputSecondes.getValue());*/
+                (!inputMinPrice.getText().isBlank() && checkFloat(inputMinPrice.getText()))&&
+                (inputDate.getValue()!= null && checkValidTime(strTime))
+                && (fileList != null && fileList.size()>0 && checkFileList(fileList) == 1) ){
+//            System.out.println(inputDate.getValue() + " " + inputHour.getValue() + ":" +
+//                    inputMinutes.getValue() + ":" + inputSecondes.getValue());
             client.sendMessgase(createSellItemMess());
             sendImages();
             synchronized (myListener){
@@ -223,9 +232,32 @@ public class SellController implements Initializable {
                 alert.showAndWait();
                 App.setRoot("homepage");
             }
-
+        }else{
+            if(inputTitle.getText().isBlank()){
+                errTitleField.setText("This field is required *");
+            }
+            if(inputMinPrice.getText().isBlank()){
+                errMinPrice.setText("This field is required *");
+            }
+            if(!inputMinPrice.getText().isBlank() && !checkFloat(inputMinPrice.getText())){
+                errMinPrice.setText("Invalid Value !!!");
+            }
+            if(inputDescription.getText().isBlank()){
+                errDescriptionField.setText("This field is required *");
+            }
+            if(inputDate.getValue() == null){
+                errTimeField.setText("This field is required *");
+            }
+            if(inputDate.getValue() != null &&
+                    !checkValidTime(strTime)){
+                errTimeField.setText("Invalid Time !!!");
+            }
+            if(fileList == null){
+                errImage.setText("Add at least one photo !!!");
+            }
         }
     }
+
     public String createSellItemMess(){
         JsonObject messJson = new JsonObject();
         messJson.addProperty("command", 4);
@@ -271,5 +303,62 @@ public class SellController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean checkFloat(String str){
+        try{
+            if(Float.parseFloat(str) <= 0){
+                return false;
+            }
+        }catch(NumberFormatException e){
+            return false;
+        }
+        return true;
+    }
+    public static boolean isImage(File file) {
+        boolean b = false;
+        try {
+            b = (ImageIO.read(file) != null);
+        } catch (IOException e) {
+        }
+        return b;
+    }
+    public int checkFileList(List<File> files){
+        int a = 1;
+        String str = "";
+        for (File file : files) {
+            if(!isImage(file)){
+                str += file.getName() + " ";
+            }
+        }
+        if(str != ""){
+            a = 0;
+            errImage.setText(str + " is not image!!!");
+        }
+        return a;
+    }
+    public static boolean checkValidTime(String str) throws ParseException {
+        Date date = new Date(); // This object contains the current date value
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        formatter.setLenient(false);
+
+        Date strTime = formatter.parse(str);
+        if(strTime.after(date)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    public void setOnClickInputTitle(MouseEvent event){
+        errTitleField.setText("");
+    }
+    public void setOnClickInputMinPrice(MouseEvent event){
+        errMinPrice.setText("");
+    }
+    public void setOnClickInputDescription(MouseEvent event){
+        errDescriptionField.setText("");
+    }
+    public void setOnClickPickTime(MouseEvent event){
+        errTimeField.setText("");
     }
 }

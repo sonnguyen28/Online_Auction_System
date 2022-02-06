@@ -1,15 +1,24 @@
 package Controller;
 
 import Main.App;
+import Model.DataModel;
 import Model.Lot;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+
+import static Main.App.dataModel;
+import static Main.App.scene;
 
 public class LotController {
 
@@ -25,10 +34,29 @@ public class LotController {
     @FXML
     private Label labelTimeStop;
 
+    @FXML
+    private DataModel dataModelLot;
+
+    @FXML
+    void clickLot(MouseEvent event) throws IOException {
+        System.out.println("Hello");
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("lotdetail.fxml"));
+        BorderPane borderPane = fxmlLoader.load();
+
+        LotDetailController lotDetailController = fxmlLoader.getController();
+        lotDetailController.setDataDetail(code, lot);
+        scene.setRoot(borderPane);
+    }
+
     private Lot lot;
+
+    private int code;
 
     public void setData(int code, Lot lot) throws URISyntaxException {
         this.lot = lot;
+        this.code = code;
+
+        this.dataModelLot = dataModel;
 
         if(code == 1){
             labelTimeStop.setText(lot.getTime_stop());
