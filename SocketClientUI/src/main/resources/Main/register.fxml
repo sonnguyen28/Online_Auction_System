@@ -67,7 +67,7 @@
                                 <Font name="System Bold" size="18.0" />
                             </font>
                         </Label>
-                        <PasswordField fx:id="input_password" onMouseClicked="#setOnClickInputPassword" prefHeight="35.0" prefWidth="298.0" style="-fx-background-radius: 50; -fx-border-radius: 50;">
+                        <PasswordField fx:id="input_password" onMouseClicked="#setOnClickInputPassword" prefHeight="35.0" prefWidth="298.0" promptText="Password" style="-fx-background-radius: 50; -fx-border-radius: 50;">
                             <VBox.margin>
                                 <Insets left="10.0" right="10.0" />
                             </VBox.margin>
@@ -89,7 +89,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="input_confirmPassword" onMouseClicked="#setOnClickInputConfirmPassword" prefHeight="36.0" prefWidth="297.0" style="-fx-background-radius: 50; -fx-border-radius: 50;">
+                  <PasswordField fx:id="input_confirmPassword" onMouseClicked="#setOnClickInputConfirmPassword" prefHeight="36.0" prefWidth="297.0" promptText="Confirm Password" style="-fx-background-radius: 50; -fx-border-radius: 50;">
                      <VBox.margin>
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
@@ -120,7 +120,7 @@
                         <HBox prefHeight="100.0" prefWidth="200.0" />
                         <HBox alignment="CENTER_RIGHT" prefHeight="88.0" prefWidth="260.0">
                             <children>
-                                <Button mnemonicParsing="false" prefHeight="45.0" prefWidth="96.0" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #1572A1 #1572A1;" styleClass="button_signup" stylesheets="@loginPage.css" text="Register" textFill="WHITE">
+                                <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="114.0" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #1572A1 #1572A1;" styleClass="button_signup" stylesheets="@loginPage.css" text="Register" textFill="WHITE">
                                     <font>
                                         <Font name="System Bold" size="19.0" />
                                     </font>

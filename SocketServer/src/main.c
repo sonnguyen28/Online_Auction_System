@@ -26,7 +26,7 @@ void *threadTime(void *data){
            // printf("|%s|-|%s|\n", start_time, convertTimeToString(currentListLots[i].stop_time));
             if (difftime(currentListLots[i].stop_time, t) <= 0) {
 
-                printf("Lot %d het han !!!\n", currentListLots[i].lot_id);
+                printf("Lot %d ket thuc !!!\n", currentListLots[i].lot_id);
                 int response_command = 7;
                 cJSON *commandJson = cJSON_CreateNumber(response_command);
                 cJSON *responseMessJson = cJSON_CreateObject();
@@ -54,15 +54,19 @@ void *threadTime(void *data){
                 }
 
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
-
-                if(checkUserRunning(currentListLots[i].winning_bidder) == 0) // 0 : user running
+                sendALL();
+                for (int j = 0; j < count_user; j++) {
+                    sendImages(listUser[j].socket_id, currentListLots[i].lot_id);
+                }
+                DeleteLotInList(currentListLots[i].lot_id);
+                UpdateLotInDatabase();
+                /*if(checkUserRunning(currentListLots[i].winning_bidder) == 0) // 0 : user running
                 {
-                    printf("Hello user runing !!!");
                     int socketID = listUser[SearchClientUserID(currentListLots[i].winning_bidder, count_user)].socket_id;
-                    sendOne(socketID);
                     sendImages(socketID, currentListLots[i].lot_id);
                     DeleteLotInList(currentListLots[i].lot_id);
-                }
+                    DeleteLotInDatabase(currentListLots[i].lot_id);
+                }*/
             }
         }
         sleep(1);

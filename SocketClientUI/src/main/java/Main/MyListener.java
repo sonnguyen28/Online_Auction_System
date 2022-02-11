@@ -8,6 +8,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.io.*;
 import java.net.Socket;
@@ -71,7 +74,7 @@ public class MyListener extends Thread{
         String description = lotObj.get("description").getAsString();
         float min_price = lotObj.get("min_price").getAsFloat();
         float winning_bid = lotObj.get("winning_bid").getAsFloat();
-        int winning_bidder = lotObj.get("owner_id").getAsInt();
+        int winning_bidder = lotObj.get("winning_bidder").getAsInt();
         int owner_id = lotObj.get("owner_id").getAsInt();
         String time_start = lotObj.get("time_start").getAsString();
         String time_stop = lotObj.get("time_stop").getAsString();
@@ -145,9 +148,10 @@ public class MyListener extends Thread{
                 String current_created = bidObj.get("created").getAsString();
                 int indexLot = 0;
                 for (int i = 0; i < dataModel.getLotListOb().size(); i++) {
-                    if(dataModel.getLotListOb().get(i).getLot_id() == current_bid_id) indexLot = i;
+                    if(dataModel.getLotListOb().get(i).getLot_id() == current_lot_id) indexLot = i;
                 }
-                if(dataModel.getCurrentLotOb().getLot_id() == current_lot_id){
+                dataModel.getLotListOb().get(indexLot).setWinning_bid(current_bid_amount);
+                if(dataModel.getCurrentLotOb() != null && dataModel.getCurrentLotOb().getLot_id() == current_lot_id){
                     dataModel.getCurrentLotOb().setWinning_bid(current_bid_amount);
                     dataModel.getCurrentLotOb().getBitListOb().add(0, new Bid(current_bid_id, current_lot_id, current_bidder_user_id, current_bid_amount, current_created));
                 }
@@ -184,10 +188,23 @@ public class MyListener extends Thread{
                         break;
                     }
                 }
-                System.out.println(index_lot);
                 dataModel.getLotListOb().remove(index_lot);
                 if(dataModel.getLotHistoryListOb() != null){
                     dataModel.getLotHistoryListOb().add(lot_tmp);
+                }
+                if(client.getUser_id() == lot_tmp.getWinning_bidder()){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
+                            alert.setTitle("Information");
+
+                            // Header Text: null
+                            alert.setHeaderText(null);
+                            alert.setContentText("You have successfully purchased an item !!! " +  lot_tmp.getTitle() + "\nCheck in your list");
+                            alert.show();
+                        }
+                    });
                 }
                 break;
             case 8:

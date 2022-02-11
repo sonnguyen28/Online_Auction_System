@@ -152,6 +152,7 @@ int create_lot(float min_price, char title[255], char description[255], int owne
 void available_lots(){
     currentListLots = NULL;
     lotTotal = 0;
+    UpdateLotInDatabase();
     connect_to_database();
     if (mysql_query(conn, "SELECT * FROM lots WHERE start_time <= curtime() and stop_time >= curtime() order by start_time"))
     {
@@ -260,13 +261,66 @@ int addLotToList(float min_price, char title[255], char description[255], int ow
     }
 }
 
+void UpdateLotInDatabase()
+{
+    connect_to_database();
+    char query[1024];
+
+    int winning_bidder = 0;
+
+    sprintf(query, "DELETE FROM images where lot_id = (SELECT id FROM lots WHERE curtime() > stop_time and winning_bidder = %d)", winning_bidder);
+    if (mysql_query(conn,query))
+    {
+        finish_with_error(conn);
+        return;
+    }else{
+       // printf("%s\n\n","lot_updated");
+    }
+
+    char query2[1024];
+
+    sprintf(query2, "DELETE FROM lots where curtime() > stop_time and winning_bidder = %d", winning_bidder);
+    if (mysql_query(conn,query2))
+    {
+        finish_with_error(conn);
+        return;
+    }else{
+       // printf("%s\n\n","lot_updated");
+    }
+
+    close_connection();
+}
+
+/*
+void DeleteLotInDatabase(int lotID)*/
+/*updates lotes which does not used*//*
+
+{
+    connect_to_database();
+    char query[1024];
+
+    int winning_bidder = 0;
+
+    sprintf(query, "DELETE FROM lots where curtime() > stop_time and winning_bidder = %d and id = %d", winning_bidder, lotID);
+    if (mysql_query(conn,query))
+    {
+        finish_with_error(conn);
+        return;
+    }else{
+        printf("%s\n\n","lot_updated");
+    }
+
+    close_connection();
+}
+*/
+
 int DeleteLotInList(int lotID){
     if(lotTotal <= 0){
         printf("List lot rong !!!\n");
         return -1;
     }
     int pos = SearchLot(lotID);
-    printf("|%d|\n", pos);
+    //printf("|%d|\n", pos);
     if(pos < 0){
         /*printf("Ko tim thay !!!\n");*/
     } else{

@@ -78,6 +78,9 @@ public class LotDetailController {
     private TableView<Bid> table;
 
     @FXML
+    private Label lotIdLabel;
+
+    @FXML
     void backHomePage(MouseEvent event) throws IOException {
 
     }
@@ -103,6 +106,7 @@ public class LotDetailController {
         labelUserName.setText(client.getUser_name());
 
         lotTitle.setText(lot.getTitle());
+        lotIdLabel.setText("( ID: " + String.valueOf(lot.getLot_id()) + " )");
         lotDescription.setText(lot.getDescription());
         lotTime.setText(lot.getTime_stop());
         lotCurrentBid.setText(lot.getWinning_bid() > 0 ? Float.toString(lot.getWinning_bid()) : Float.toString(lot.getMin_price()));
@@ -279,7 +283,9 @@ public class LotDetailController {
     }
 
     public void bidButtonOnAction(MouseEvent event) {
-        if (!inputBidAmount.getText().isBlank() && checkFloat(inputBidAmount.getText()) == 1 && Float.parseFloat(inputBidAmount.getText()) > dataModelLotDetail.getCurrentLotOb().getWinning_bid()) {
+        if (!inputBidAmount.getText().isBlank() && checkFloat(inputBidAmount.getText()) == 1 &&
+                Float.parseFloat(inputBidAmount.getText()) >
+                        (dataModelLotDetail.getCurrentLotOb().getWinning_bid() == 0 ?  dataModelLotDetail.getCurrentLotOb().getMin_price() : dataModelLotDetail.getCurrentLotOb().getWinning_bid())) {
 
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.CANCEL,ButtonType.OK);
             confirm.setTitle("CONFIRMATION");
@@ -307,6 +313,7 @@ public class LotDetailController {
                 // Header Text: null
                 alert.setHeaderText(null);
                 alert.setContentText("Bid successfully !!!");
+                alert.show();
                 errBid.setText("");
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
@@ -322,7 +329,7 @@ public class LotDetailController {
             if (!inputBidAmount.getText().isBlank() && checkFloat(inputBidAmount.getText()) == 0) {
                 errBid.setText("Invalid Value !!!");
             }
-            if (Float.parseFloat(inputBidAmount.getText()) <= dataModelLotDetail.getCurrentLotOb().getWinning_bid()) {
+            if (Float.parseFloat(inputBidAmount.getText()) <= (dataModelLotDetail.getCurrentLotOb().getWinning_bid() == 0 ?  dataModelLotDetail.getCurrentLotOb().getMin_price() : dataModelLotDetail.getCurrentLotOb().getWinning_bid())) {
                 errBid.setText("Bid amount > " + dataModelLotDetail.getCurrentLotOb().getWinning_bid() + " !!!");
             }
         }

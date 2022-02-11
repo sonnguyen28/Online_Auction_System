@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static Main.App.*;
 
@@ -105,7 +107,7 @@ public class SellController implements Initializable {
 
         ObservableList<String> hoursList = FXCollections.observableArrayList();
         ObservableList<String> minutesAndSecondsList = FXCollections.observableArrayList();
-        for (int i = 0; i <= 60 ; i++) {
+        for (int i = 0; i <= 59 ; i++) {
             if(0 <= i && i <= 24){
                 hoursList.add(String.format("%02d", i));
             }
@@ -128,7 +130,7 @@ public class SellController implements Initializable {
                 fileList = fileChooser.showOpenMultipleDialog(getStage());
 
                 printLog(listImage, fileList);
-                checkFileStatus = checkFileList(fileList);
+                if(fileList != null) checkFileStatus = checkFileList(fileList);
             }
         });
 
@@ -209,7 +211,7 @@ public class SellController implements Initializable {
         if (!inputTitle.getText().isBlank() && !inputDescription.getText().isBlank() &&
                 (!inputMinPrice.getText().isBlank() && checkFloat(inputMinPrice.getText()))&&
                 (inputDate.getValue()!= null && checkValidTime(strTime))
-                && (fileList != null && fileList.size()>0 && checkFileStatus == 1) ){
+                && checkFileStatus == 1 && fileList.size() > 0){
 //            System.out.println(inputDate.getValue() + " " + inputHour.getValue() + ":" +
 //                    inputMinutes.getValue() + ":" + inputSecondes.getValue());
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.CANCEL,ButtonType.OK);
@@ -325,25 +327,50 @@ public class SellController implements Initializable {
         }
         return true;
     }
-    public static boolean isImage(File file) {
-        boolean b = false;
+    /*public static boolean isImage(File file) {
         try {
-            b = (ImageIO.read(file) != null);
+            return ImageIO.read(file) != null;
         } catch (IOException e) {
+            return false;
         }
-        return b;
+
+    }*/
+
+    public static boolean isImage(String str)
+    {
+        // Regex to check valid image file extension.
+        String regex
+                = "([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)";
+
+        // Compile the ReGex
+        Pattern p = Pattern.compile(regex);
+
+        // If the string is empty
+        // return false
+        if (str == null) {
+            return false;
+        }
+
+        // Pattern class contains matcher() method
+        // to find matching between given string
+        // and regular expression.
+        Matcher m = p.matcher(str);
+
+        // Return if the string
+        // matched the ReGex
+        return m.matches();
     }
     public int checkFileList(List<File> files){
         int a = 1;
         String str = "";
         for (File file : files) {
-            if(!isImage(file)){
+            if(!isImage(file.getName()) || file.length()/(1024*1024) > 2){
                 str += file.getName() + "\n";
             }
         }
         if(str != ""){
             a = 0;
-            errImage.setText(str + " is not image!!!");
+            errImage.setText(str + " Invalid file or file is too large (image <= 2MB) !!!");
         }
         return a;
     }

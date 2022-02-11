@@ -172,11 +172,26 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="61.0" prefWidth="631.0" styleClass="lot-detail" stylesheets="@style.css">
                            <children>
-                              <Label fx:id="lotTitle" alignment="CENTER" prefHeight="89.0" prefWidth="631.0" text="Iphone 11">
-                                 <font>
-                                    <Font name="Arial Bold" size="20.0" />
-                                 </font>
-                              </Label>
+                              <VBox alignment="CENTER" prefHeight="60.0" prefWidth="415.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label fx:id="lotTitle" alignment="CENTER" prefHeight="89.0" prefWidth="631.0" text="Iphone 11">
+                                       <font>
+                                          <Font name="Arial Bold" size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lotIdLabel">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                 </children>
+                              </VBox>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="631.0" styleClass="lot-detail" stylesheets="@style.css">

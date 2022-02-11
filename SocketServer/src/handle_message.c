@@ -106,7 +106,7 @@ void readInfoImage(int socketID, int lotID, char *messageFromClient){
         cJSON_ArrayForEach(image, images){
             cJSON *image_name = cJSON_GetObjectItemCaseSensitive(image, "image_name");
             cJSON *image_size = cJSON_GetObjectItemCaseSensitive(image, "image_size");
-            printf("image: |%s - %d|\n", image_name->valuestring, image_size->valueint);
+            //printf("image: |%s - %d|\n", image_name->valuestring, image_size->valueint);
 
 
             char pathImage[1025];
@@ -128,7 +128,7 @@ void readInfoImage(int socketID, int lotID, char *messageFromClient){
             {
                 // recvBuff[n] = 0;
                 fwrite(recvBuff, 1, bytesReceived,fp);
-                printf("|%d - %d - %d| \n", size, image_size->valueint, bytesReceived);
+                //printf("|%d - %d - %d| \n", size, image_size->valueint, bytesReceived);
                 size = size - 1024;
                 //bzero(recvBuff, 1024);
             }
@@ -196,7 +196,7 @@ void sendOne(int socketID){
     // response message to client
     responseMess[strlen(responseMess)+1] = '\0';
     responseMess[strlen(responseMess)]='\n';
-    printf("|String len messsage: %d|\n", strlen(responseMess));
+    //printf("|String len messsage: %d|\n", strlen(responseMess));
     FD_SET(socketID, &writefds);
     send(socketID , responseMess , strlen(responseMess) , 0 );
     FD_CLR(socketID, &writefds);

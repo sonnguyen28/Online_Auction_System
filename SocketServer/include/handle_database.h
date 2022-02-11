@@ -89,6 +89,8 @@ void lotHistory(int winning_bidder);
 int create_bid(int lot_id,float bid_amount, int bidder_user_id);
 void bidsHistory(int lotID);
 Bid SearchBid(int bidID);
+void UpdateLotInDatabase();
+void DeleteLotInDatabase(int lotID);
 void printListBids();
 
 //handle Image
