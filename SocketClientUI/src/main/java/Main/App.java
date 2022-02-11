@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
@@ -55,6 +56,11 @@ public class App extends Application {
             @Override
             public void handle(WindowEvent t) {
                 Platform.exit();
+                File folder = new File("src/main/resources/Main/image");
+                File[] listOfFiles = folder.listFiles();
+                for (File file : listOfFiles) {
+                    myListener.deleteDir(file);
+                }
                 System.exit(0);
             }
         });

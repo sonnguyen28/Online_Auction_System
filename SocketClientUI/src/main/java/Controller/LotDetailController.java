@@ -103,6 +103,11 @@ public class LotDetailController {
             time_stop.setText("Time stop:");
         }
 
+        if(client.getUser_id() == lot.getOwner_id()){
+            btnBid.setVisible(false);
+            inputBidAmount.setVisible(false);
+        }
+
         labelUserName.setText(client.getUser_name());
 
         lotTitle.setText(lot.getTitle());

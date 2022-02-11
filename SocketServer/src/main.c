@@ -53,9 +53,10 @@ void *threadTime(void *data){
                     cJSON_AddItemToObject(imageJson, "image_size", cJSON_CreateNumber(listImage[i].image_size));
                 }
 
+                responseMess = (char *) malloc(MAXLINE*sizeof (char ));
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
-                sendALL();
                 for (int j = 0; j < count_user; j++) {
+                    sendOne(listUser[j].socket_id);
                     sendImages(listUser[j].socket_id, currentListLots[i].lot_id);
                 }
                 DeleteLotInList(currentListLots[i].lot_id);
