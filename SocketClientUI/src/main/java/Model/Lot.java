@@ -1,5 +1,10 @@
 package Model;
 
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.List;
 
 public class Lot {
@@ -7,24 +12,27 @@ public class Lot {
     private String title;
     private String description;
     private float min_price;
-    private float winning_bid;
+    private FloatProperty winning_bid = new SimpleFloatProperty();
     private int winning_bidder; //0
     private int owner_id;
     private String time_start; //2021-12-20 09:49:00
     private String time_stop; //2021-12-25 10:00:00
     private List<ImageLot> imageLots;
+    private ObservableList<Bid> bitListOb = FXCollections.observableArrayList();
 
     public Lot(int lot_id, String title, String description, float min_price, float winning_bid, int winning_bidder, int owner_id, String time_start, String time_stop) {
         this.lot_id = lot_id;
         this.title = title;
         this.description = description;
         this.min_price = min_price;
-        this.winning_bid = winning_bid;
+        setWinning_bid(winning_bid);
         this.winning_bidder = winning_bidder;
         this.owner_id = owner_id;
         this.time_start = time_start;
         this.time_stop = time_stop;
     }
+
+
 
     public int getLot_id() {
         return lot_id;
@@ -59,11 +67,15 @@ public class Lot {
     }
 
     public float getWinning_bid() {
+        return winning_bid.get();
+    }
+
+    public FloatProperty winning_bidProperty() {
         return winning_bid;
     }
 
     public void setWinning_bid(float winning_bid) {
-        this.winning_bid = winning_bid;
+        this.winning_bid.set(winning_bid);
     }
 
     public int getWinning_bidder() {
@@ -104,6 +116,10 @@ public class Lot {
 
     public void setImages(List<ImageLot> imageLots) {
         this.imageLots = imageLots;
+    }
+
+    public ObservableList<Bid> getBitListOb() {
+        return bitListOb;
     }
 
     @Override

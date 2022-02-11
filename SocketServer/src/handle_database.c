@@ -133,8 +133,10 @@ int create_lot(float min_price, char title[255], char description[255], int owne
     char start_time[20];
     sprintf(start_time, "%.4d-%.2d-%.2d %.2d:%.2d:%.2d", tm.tm_year+1900,tm.tm_mon+1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
     //printf("|%s|-|%s|\n", start_time, stop_time);
+    float winning_bid = 0;
+    int winning_bidder = 0;
     char query[1024];
-    sprintf(query,"INSERT INTO lots (min_price,title,description,owner_id,start_time ,stop_time) VALUES( %2f,\'%s\',\'%s\',%d,\'%s\', \'%s\')",min_price,title,description,owner_id,start_time,stop_time);
+    sprintf(query,"INSERT INTO lots (min_price,winning_bid,winning_bidder,title,description,owner_id,start_time ,stop_time) VALUES( %2f, %2f , %d , \'%s\' ,\'%s\',%d,\'%s\', \'%s\')",min_price,winning_bid,winning_bidder,title,description,owner_id,start_time,stop_time);
     if (mysql_query(conn,query))
     {
         finish_with_error(conn);
@@ -325,6 +327,38 @@ int create_bid(int lot_id,float bid_amount, int bidder_user_id) /*create  bid */
     }
     close_connection();
     return last_bidID;
+}
+
+Bid SearchBid(int bidID){
+    char query[1024];
+    Bid newBid;
+    sprintf(query,"SELECT * FROM bids WHERE id = %d", bidID);
+    connect_to_database();
+    if (mysql_query(conn,query))
+    {
+        finish_with_error(conn);
+        exit(1);
+    }else {
+        res = mysql_store_result(conn);
+
+        if (res == NULL)
+        {
+            finish_with_error(conn);
+            exit(1);
+        }
+
+        while ((row = mysql_fetch_row(res)))
+        {
+            newBid.bid_id = atoi(row[0]);
+            newBid.lot_id = atoi(row[1]);
+            newBid.bid_amount = atof(row[2]);
+            newBid.bidder_user_id = atoi(row[3]);
+            newBid.created = convert((char *)row[4]);
+        }
+        mysql_free_result(res);
+    }
+    close_connection();
+    return newBid;
 }
 
 void bidsHistory(int lotID){

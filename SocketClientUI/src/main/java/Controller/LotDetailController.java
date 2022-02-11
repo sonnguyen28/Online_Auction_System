@@ -1,21 +1,27 @@
 package Controller;
 
 import Main.App;
+import Model.Bid;
+import Model.DataModel;
 import Model.Lot;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,20 +75,29 @@ public class LotDetailController {
 
     @FXML
     private GridPane grid;
+    private TableView<Bid> table;
 
     @FXML
     void backHomePage(MouseEvent event) throws IOException {
 
     }
 
-    private Lot lot;
+    private DataModel dataModelLotDetail;
+
+    @FXML
+    private Label errBid;
+
+    @FXML
+    private Label time_stop;
 
     public void setDataDetail(int code, Lot lot){
-        this.lot = lot;
+        this.dataModelLotDetail = dataModel;
+        dataModelLotDetail.setCurrentLotOb(lot);
 
         if(code == 1) {
             btnBid.setVisible(false);
             inputBidAmount.setVisible(false);
+            time_stop.setText("Time stop:");
         }
 
         labelUserName.setText(client.getUser_name());
@@ -142,6 +157,18 @@ public class LotDetailController {
 
             GridPane.setMargin(anchorPane, new Insets(20));
         }
+
+        dataModelLotDetail.getCurrentLotOb().winning_bidProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        lotCurrentBid.setText(dataModelLotDetail.getCurrentLotOb().getWinning_bid() > 0 ? Float.toString(dataModelLotDetail.getCurrentLotOb().getWinning_bid()) : Float.toString(dataModelLotDetail.getCurrentLotOb().getMin_price()));
+                    }
+                });
+            }
+        });
 
     }
 
@@ -217,4 +244,209 @@ public class LotDetailController {
         return historyMess;
     }
 
+    public int checkFloat(String str){
+        float a = dataModelLotDetail.getCurrentLotOb().getWinning_bid();
+        if(a>0){
+            a = dataModelLotDetail.getCurrentLotOb().getWinning_bid();
+        }else{
+            a = dataModelLotDetail.getCurrentLotOb().getMin_price();
+        }
+        try{
+            if(Float.parseFloat(str) < a){
+                return 0;
+            }
+        }catch(NumberFormatException e){
+            return 0;
+        }
+        return 1;
+    }
+
+    public void setOnClickInputBid(MouseEvent event){
+        errBid.setText("");
+    }
+
+    public String createBidMess(){
+        JsonObject messJson = new JsonObject();
+        messJson.addProperty("command", 3);
+        messJson.addProperty("user_id", client.getUser_id());
+        messJson.addProperty("lot_id", dataModelLotDetail.getCurrentLotOb().getLot_id());
+        messJson.addProperty("bid_amount", Float.parseFloat(inputBidAmount.getText()));
+
+        Gson gson = new GsonBuilder().create();
+        String bidMess = gson.toJson(messJson, JsonObject.class);
+        System.out.println(bidMess);
+        return bidMess;
+    }
+
+    public void bidButtonOnAction(MouseEvent event) {
+        if (!inputBidAmount.getText().isBlank() && checkFloat(inputBidAmount.getText()) == 1 && Float.parseFloat(inputBidAmount.getText()) > dataModelLotDetail.getCurrentLotOb().getWinning_bid()) {
+
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.CANCEL,ButtonType.OK);
+            confirm.setTitle("CONFIRMATION");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Do you want pay this bid?");
+            confirm.showAndWait();
+            if (confirm.getResult() == ButtonType.CANCEL) {
+                return;
+            }
+            client.sendMessgase(createBidMess());
+            synchronized (myListener) {
+                try {
+                    System.out.println("Waiting message from server ...");
+                    myListener.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            int command = myListener.getCommandMess();
+            if (command == 3) {
+                System.out.println(myListener.getReceiveMessage());
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
+                alert.setTitle("Information");
+
+                // Header Text: null
+                alert.setHeaderText(null);
+                alert.setContentText("Bid successfully !!!");
+                errBid.setText("");
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
+                alert.setTitle("Information");
+
+                alert.setHeaderText(null);
+                alert.setContentText("Bid fail !!!");
+            }
+        } else {
+            if (inputBidAmount.getText().isBlank()) {
+                errBid.setText("This field is required *");
+            }
+            if (!inputBidAmount.getText().isBlank() && checkFloat(inputBidAmount.getText()) == 0) {
+                errBid.setText("Invalid Value !!!");
+            }
+            if (Float.parseFloat(inputBidAmount.getText()) <= dataModelLotDetail.getCurrentLotOb().getWinning_bid()) {
+                errBid.setText("Bid amount > " + dataModelLotDetail.getCurrentLotOb().getWinning_bid() + " !!!");
+            }
+        }
+    }
+
+    public String createBidListMess(){
+        JsonObject messJson = new JsonObject();
+        messJson.addProperty("command", 8);
+        messJson.addProperty("user_id", client.getUser_id());
+        messJson.addProperty("lot_id", dataModelLotDetail.getCurrentLotOb().getLot_id());
+
+        Gson gson = new GsonBuilder().create();
+        String bidListMess = gson.toJson(messJson, JsonObject.class);
+        return bidListMess;
+    }
+
+    public void bidListButtonOnAction(MouseEvent event){
+        client.sendMessgase(createBidListMess());
+        synchronized (myListener){
+            try{
+                System.out.println("Waiting message from server ...");
+                myListener.wait();
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }}
+        int command = myListener.getCommandMess();
+        if (command == 8){
+            Label secondLabel = new Label("I'm a Label on new Window");
+
+            StackPane secondaryLayout = new StackPane();
+            secondaryLayout.getChildren().add(secondLabel);
+
+            Scene secondScene = new Scene(secondaryLayout, 800, 760);
+
+            // Một cửa sổ mới (Stage)
+            Stage newWindow = new Stage();
+            newWindow.setTitle("Second Stage");
+            newWindow.setScene(secondScene);
+
+            // Sét đặt vị trí cho cửa sổ thứ 2.
+            // Có vị trí tương đối đối với cửa sổ chính.
+    /*    newWindow.setX(scene.getX() + 200);
+        newWindow.setY(scene.getY() + 100);*/
+
+
+            TableView<Bid> table = new TableView<Bid>(dataModelLotDetail.getCurrentLotOb().getBitListOb());
+
+
+            // Tạo cột bidder (Kiểu dữ liệu String)
+            TableColumn<Bid, String> Bidder //
+                    = new TableColumn<Bid, String>("Bidder");
+
+            // Tạo cột bid_amount (Kiểu dữ liệu Float)
+            TableColumn<Bid, Float> BidAmount//
+                    = new TableColumn<Bid, Float>("Bid Amount");
+
+            // Tạo cột bid_time (Kiểu dữ liệu String)
+            TableColumn<Bid, String> BidTime//
+                    = new TableColumn<Bid, String>("Bid Time");
+
+            Bidder.setCellValueFactory(new PropertyValueFactory<>("bidder_user_id"));
+            BidAmount.setCellValueFactory(new PropertyValueFactory<>("bid_amount"));
+            BidTime.setCellValueFactory(new PropertyValueFactory<>("created"));
+
+            BidAmount.setSortType(TableColumn.SortType.DESCENDING);
+
+            table.getColumns().addAll( BidAmount, BidTime, Bidder);
+
+            StackPane root = new StackPane();
+            root.setPadding(new Insets(5));
+            root.getChildren().add(table);
+
+            newWindow.setTitle("Bid List");
+
+            Scene scene = new Scene(root, 800, 760);
+            newWindow.setScene(scene);
+
+            newWindow.show();
+            newWindow.centerOnScreen();
+
+            dataModelLotDetail.getCurrentLotOb().getBitListOb().addListener(new ListChangeListener<Bid>() {
+                @Override
+                public void onChanged(Change<? extends Bid> change) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            root.getChildren().clear();
+                            TableView<Bid> table = new TableView<Bid>(dataModelLotDetail.getCurrentLotOb().getBitListOb());
+
+
+                            // Tạo cột bidder (Kiểu dữ liệu String)
+                            TableColumn<Bid, String> Bidder //
+                                    = new TableColumn<Bid, String>("Bidder");
+
+                            // Tạo cột bid_amount (Kiểu dữ liệu Float)
+                            TableColumn<Bid, Float> BidAmount//
+                                    = new TableColumn<Bid, Float>("Bid Amount");
+
+                            // Tạo cột bid_time (Kiểu dữ liệu String)
+                            TableColumn<Bid, String> BidTime//
+                                    = new TableColumn<Bid, String>("Bid Time");
+
+                            Bidder.setCellValueFactory(new PropertyValueFactory<>("bidder_user_id"));
+                            BidAmount.setCellValueFactory(new PropertyValueFactory<>("bid_amount"));
+                            BidTime.setCellValueFactory(new PropertyValueFactory<>("created"));
+
+                            BidAmount.setSortType(TableColumn.SortType.DESCENDING);
+
+                            table.getColumns().addAll(BidAmount, BidTime, Bidder);
+
+                            StackPane root = new StackPane();
+                            root.setPadding(new Insets(5));
+                            root.getChildren().add(table);
+
+                            newWindow.setTitle("Bid List");
+
+                            Scene scene = new Scene(root, 800, 760);
+                            newWindow.setScene(scene);
+
+                        }
+                    });
+                }
+            });
+
+        }
+    }
 }

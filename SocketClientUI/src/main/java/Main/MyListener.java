@@ -1,5 +1,6 @@
 package Main;
 
+import Model.Bid;
 import Model.DataModel;
 import Model.ImageLot;
 import Model.Lot;
@@ -118,6 +119,7 @@ public class MyListener extends Thread{
         JsonObject recvMessJson = new Gson().fromJson(receiveMessage, JsonObject.class);
         int command = getCommandMess();
         JsonObject lotObj;
+        JsonObject bidObj;
         switch (command){
             case 2:
                 dataModel = new DataModel();
@@ -132,6 +134,23 @@ public class MyListener extends Thread{
                 dataModel.setLotListOb((ArrayList<Lot>) lotList);
                 break;
             case -2:
+                break;
+
+            case 3:
+                bidObj = recvMessJson.getAsJsonObject("bid");
+                int current_bid_id = bidObj.get("bid_id").getAsInt();
+                int current_lot_id = bidObj.get("lot_id").getAsInt();
+                int current_bidder_user_id = bidObj.get("bidder_user_id").getAsInt();
+                float current_bid_amount = bidObj.get("bid_amount").getAsFloat();
+                String current_created = bidObj.get("created").getAsString();
+                int indexLot = 0;
+                for (int i = 0; i < dataModel.getLotListOb().size(); i++) {
+                    if(dataModel.getLotListOb().get(i).getLot_id() == current_bid_id) indexLot = i;
+                }
+                if(dataModel.getCurrentLotOb().getLot_id() == current_lot_id){
+                    dataModel.getCurrentLotOb().setWinning_bid(current_bid_amount);
+                    dataModel.getCurrentLotOb().getBitListOb().add(0, new Bid(current_bid_id, current_lot_id, current_bidder_user_id, current_bid_amount, current_created));
+                }
                 break;
 
             case 4:
@@ -156,7 +175,6 @@ public class MyListener extends Thread{
                 break;
 
             case 7:
-                System.out.println("Hello");
                 lotObj = recvMessJson.getAsJsonObject("lot");
                 Lot lot_tmp = getLotInfo(lotObj);
                 int index_lot = 0;
@@ -172,6 +190,24 @@ public class MyListener extends Thread{
                     dataModel.getLotHistoryListOb().add(lot_tmp);
                 }
                 break;
+            case 8:
+                dataModel.getCurrentLotOb().getBitListOb().clear();
+                JsonArray bids = recvMessJson.getAsJsonArray("bids");
+                bidObj = new JsonObject();
+                for (JsonElement bid : bids) {
+                    bidObj = (JsonObject) bid;
+                    int bid_id = bidObj.get("bid_id").getAsInt();
+                    int lot_id = bidObj.get("lot_id").getAsInt();
+                    float bit_amount = bidObj.get("bid_amount").getAsFloat();
+                    int bidder_user_id = bidObj.get("bidder_user_id").getAsInt();
+                    String created = bidObj.get("created").getAsString();
+
+                    Bid newBid = new Bid(bid_id, lot_id, bidder_user_id, bit_amount, created);
+                    if(dataModel.getCurrentLotOb().getBitListOb().size() != bids.size()){
+                        dataModel.getCurrentLotOb().getBitListOb().add(newBid);
+                    }
+                }
+                break;
         }
     }
 
@@ -182,14 +218,11 @@ public class MyListener extends Thread{
                 receiveMessage = bufferedReader.readLine();
                 System.out.println("\nMessage from sever: " + receiveMessage);
                 autoHandleMessage();
-                sleep(100);
                 synchronized (this){
                     notify();
                 }
             } catch (IOException e) {
                 closeListener(socket, bufferedReader);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }

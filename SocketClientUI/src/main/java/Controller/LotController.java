@@ -37,6 +37,8 @@ public class LotController {
     @FXML
     private DataModel dataModelLot;
 
+
+
     @FXML
     void clickLot(MouseEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("lotdetail.fxml"));

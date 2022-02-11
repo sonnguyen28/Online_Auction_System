@@ -119,9 +119,9 @@ public class HomeController implements Initializable {
         }
 
 
-        dataModelHome.getLotListOb().addListener(new ListChangeListener() {
+        dataModelHome.getLotListOb().addListener(new ListChangeListener<Lot>() {
             @Override
-            public void onChanged(ListChangeListener.Change change) {
+            public void onChanged(Change<? extends Lot> c) {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {

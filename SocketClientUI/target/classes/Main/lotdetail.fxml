@@ -195,7 +195,7 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="631.0" styleClass="lot-detail" stylesheets="@style.css">
                            <children>
-                              <Label prefHeight="60.0" prefWidth="143.0" text="Time left:">
+                              <Label fx:id="time_stop" prefHeight="60.0" prefWidth="143.0" text="Time left:">
                                  <font>
                                     <Font name="Arial" size="18.0" />
                                  </font>
@@ -219,17 +219,17 @@
                                     <Font name="Arial Bold" size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelBidList" prefHeight="23.0" prefWidth="49.0" text="Bid list" textFill="#2e39d3" underline="true">
+                              <Label fx:id="labelBidList" onMouseClicked="#bidListButtonOnAction" prefHeight="23.0" prefWidth="49.0" text="Bid list" textFill="#2e39d3" underline="true">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="631.0" spacing="10.0" styleClass="lot-detail" stylesheets="@style.css">
+                        <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="631.0" spacing="10.0" stylesheets="@style.css">
                            <children>
-                              <TextField fx:id="inputBidAmount" prefHeight="45.0" prefWidth="153.0" promptText="Bid Amount" />
-                              <Label fx:id="btnBid" alignment="CENTER" prefHeight="36.0" prefWidth="190.0" style="-fx-background-radius: 50 50 50 50; -fx-background-color: #0053A0;" stylesheets="@style.css" text="Place Bid" textFill="WHITE">
+                              <TextField fx:id="inputBidAmount" onMouseClicked="#setOnClickInputBid" prefHeight="45.0" prefWidth="153.0" promptText="Bid Amount" />
+                              <Label fx:id="btnBid" alignment="CENTER" onMouseClicked="#bidButtonOnAction" prefHeight="36.0" prefWidth="190.0" style="-fx-background-radius: 50 50 50 50; -fx-background-color: #0053A0;" stylesheets="@style.css" text="Place Bid" textFill="WHITE">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -240,6 +240,11 @@
                                     <Font name="Arial Bold" size="14.0" />
                                  </font>
                               </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="25.0" prefWidth="539.0">
+                           <children>
+                              <Label fx:id="errBid" prefHeight="25.0" prefWidth="537.0" textFill="RED" />
                            </children>
                         </HBox>
                      </children>

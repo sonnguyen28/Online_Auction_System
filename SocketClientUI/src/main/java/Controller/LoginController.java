@@ -59,6 +59,7 @@ public class LoginController implements Initializable {
                 App.resizeScene(1290, 900);
 
                 App.setRoot("homepage");
+                App.getStage().centerOnScreen();
             }
             if(command == -2){
                 errMessageLabel.setText("Sai username hoặc password\nChú ý: tài khoản chỉ được đăng nhập một nơi");
@@ -76,6 +77,7 @@ public class LoginController implements Initializable {
 
     public void changeRegisterPage(ActionEvent event) throws IOException {
         App.setRoot("register");
+        App.getStage().centerOnScreen();
     }
 
     public void setOnClickInputUserName(MouseEvent event){
@@ -96,7 +98,4 @@ public class LoginController implements Initializable {
         String loginMess = gson.toJson(messJson, JsonObject.class);
         return loginMess;
     }
-
-
-
 }

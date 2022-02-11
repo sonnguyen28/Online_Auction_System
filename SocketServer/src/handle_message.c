@@ -338,24 +338,26 @@ void handleRequest(int command, char *messageFromClient, int socketID){
             newBid = readInfoBid(messageFromClient);
             result = create_bid(newBid.lot_id, newBid.bid_amount, newBid.bidder_user_id);
             newBid.bid_id = result;
-            indexLot = SearchLot(newBid.lot_id);
+           // indexLot = SearchLot(newBid.lot_id);
+            newBid = SearchBid(newBid.bid_id);
             responseMess = (char *) malloc(MAXLINE*sizeof (char ));
             if(result >= 0){
                 response_command = 3;
                 commandJson = cJSON_CreateNumber(response_command);
                 cJSON_AddItemToObject(responseMessJson, "command", commandJson);
-                cJSON *lotJson = cJSON_CreateObject();
-                cJSON_AddItemToObject(responseMessJson, "lot", lotJson);
-                cJSON_AddItemToObject(lotJson, "lot_id", cJSON_CreateNumber(currentListLots[indexLot].lot_id));
-                cJSON_AddItemToObject(lotJson, "title", cJSON_CreateString(currentListLots[indexLot].title));
-                cJSON_AddItemToObject(lotJson, "description", cJSON_CreateString(currentListLots[indexLot].description));
-                cJSON_AddItemToObject(lotJson, "winning_bid", cJSON_CreateNumber(currentListLots[indexLot].winning_bid));
-                cJSON_AddItemToObject(lotJson, "winning_bidder", cJSON_CreateNumber(currentListLots[indexLot].winning_bidder));
-                cJSON_AddItemToObject(lotJson, "owner_id",cJSON_CreateNumber(currentListLots[indexLot].owner_id));
-                cJSON_AddItemToObject(lotJson, "time_start",cJSON_CreateString(convertTimeToString(currentListLots[indexLot].start_time)));
+                cJSON *bidJson = cJSON_CreateObject();
+                cJSON_AddItemToObject(responseMessJson, "bid", bidJson);
+                cJSON_AddItemToObject(bidJson, "bid_id", cJSON_CreateNumber(newBid.bid_id));
+                cJSON_AddItemToObject(bidJson, "lot_id", cJSON_CreateNumber(newBid.lot_id));
+                char tmp[255];
+                sprintf(tmp, "%.2f", newBid.bid_amount);
+                cJSON_AddItemToObject(bidJson, "bid_amount", cJSON_CreateNumber(atof(tmp)));
+                cJSON_AddItemToObject(bidJson, "bidder_user_id", cJSON_CreateNumber(newBid.bidder_user_id));
+                cJSON_AddItemToObject(bidJson, "created", cJSON_CreateString(convertTimeToString(newBid.created)));
+
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
-                //sendALL();
-                sendOne(socketID);
+                sendALL();
+                //sendOne(socketID);
             } else{
                 response_command = -3;
                 commandJson = cJSON_CreateNumber(response_command);
@@ -562,7 +564,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 cJSON_AddItemToObject(bidJson, "bid_id", cJSON_CreateNumber(listBidsHistory[i].bid_id));
                 cJSON_AddItemToObject(bidJson, "lot_id", cJSON_CreateNumber(listBidsHistory[i].lot_id));
                 cJSON_AddItemToObject(bidJson, "bid_amount", cJSON_CreateNumber(listBidsHistory[i].bid_amount));
-                cJSON_AddItemToObject(bidJson, "bid_amount", cJSON_CreateNumber(listBidsHistory[i].bidder_user_id));
+                cJSON_AddItemToObject(bidJson, "bidder_user_id", cJSON_CreateNumber(listBidsHistory[i].bidder_user_id));
                 cJSON_AddItemToObject(bidJson, "created", cJSON_CreateString(convertTimeToString(listBidsHistory[i].created)));
             }
 

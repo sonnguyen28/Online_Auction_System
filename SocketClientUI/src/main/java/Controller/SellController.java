@@ -88,7 +88,6 @@ public class SellController implements Initializable {
 
     private int checkFileStatus;
 
-
     private void printLog(TextArea textArea, List<File> files) {
         if (files == null || files.isEmpty()) {
             return;
@@ -213,6 +212,14 @@ public class SellController implements Initializable {
                 && (fileList != null && fileList.size()>0 && checkFileStatus == 1) ){
 //            System.out.println(inputDate.getValue() + " " + inputHour.getValue() + ":" +
 //                    inputMinutes.getValue() + ":" + inputSecondes.getValue());
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "", ButtonType.CANCEL,ButtonType.OK);
+            confirm.setTitle("CONFIRMATION");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Do you want to sell this item ?");
+            confirm.showAndWait();
+            if (confirm.getResult() == ButtonType.CANCEL) {
+                return;
+            }
             client.sendMessgase(createSellItemMess());
             sendImages();
             synchronized (myListener){
