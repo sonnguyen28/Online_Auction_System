@@ -106,7 +106,7 @@ public class MyListener extends Thread{
                     fileOutputStream.write(buffer, 0, bytes);
                     size -= bytes;      // read upto file size
                 }
-                System.out.println("File OK current lot....");
+                System.out.println("File ..... OK");
                 ImageLot img = new ImageLot(fileName, fileSize, "src/main/resources/Main/image/" + lotID + "/" + fileName);
                 newImageListLot.add(img);
                 fileOutputStream.close();
@@ -159,9 +159,9 @@ public class MyListener extends Thread{
 
             case 4:
                 lotObj = recvMessJson.getAsJsonObject("lot");
-                System.out.println(dataModel.getLotListOb().size());
+                //System.out.println(dataModel.getLotListOb().size());
                 dataModel.getLotListOb().add(getLotInfo(lotObj));
-                System.out.println(dataModel.getLotListOb().size());
+                //System.out.println(dataModel.getLotListOb().size());
                 break;
 
             case 5:

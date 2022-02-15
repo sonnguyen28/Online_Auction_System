@@ -23,7 +23,6 @@ void *threadTime(void *data){
             char start_time[20];
             sprintf(start_time, "%.4d-%.2d-%.2d %.2d:%.2d:%.2d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
                     tm.tm_hour, tm.tm_min, tm.tm_sec);
-           // printf("|%s|-|%s|\n", start_time, convertTimeToString(currentListLots[i].stop_time));
             if (difftime(currentListLots[i].stop_time, t) <= 0) {
 
                 printf("Lot %d ket thuc !!!\n", currentListLots[i].lot_id);
@@ -193,7 +192,7 @@ int main(void) {
         {
             int sd = client_socket[i];
 
-            if (FD_ISSET( sd , &readfds) && !FD_ISSET(sd, &writefds))
+            if (FD_ISSET( sd , &readfds) /*&& !FD_ISSET(sd, &writefds)*/)
             {
                 //Check if it was for closing , and also read the
                 //incoming message
@@ -231,7 +230,7 @@ int main(void) {
                     printf("Message from client: %s\n", buffer);
                     int command = readCommand(buffer);
                     handleRequest(command, buffer, sd);
-                    memset(buffer, '\0', sizeof(buffer));
+                    bzero(buffer, sizeof (buffer));
                 }
             }
         }

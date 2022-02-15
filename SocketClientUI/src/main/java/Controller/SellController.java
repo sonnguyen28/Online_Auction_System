@@ -233,7 +233,7 @@ public class SellController implements Initializable {
                 }}
             int command = myListener.getCommandMess();
             if (command == 4){
-                System.out.println(myListener.getReceiveMessage());
+                //System.out.println(myListener.getReceiveMessage());
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
                 alert.setTitle("Information");
 

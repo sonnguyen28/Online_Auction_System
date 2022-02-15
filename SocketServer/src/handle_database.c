@@ -362,20 +362,19 @@ int create_bid(int lot_id,float bid_amount, int bidder_user_id) /*create  bid */
         } else{
             res = mysql_store_result(conn);
             if(mysql_num_rows(res) > 0){
-                printf("Update thanh cong -> create bid\n");
                 sprintf(query,"INSERT INTO bids(lot_id, bid_amount, bidder_user_id, created) SELECT id, winning_bid, winning_bidder, CURRENT_TIMESTAMP() FROM lots WHERE id = %d",lot_id);
                 if (mysql_query(conn, query)){
                     finish_with_error(conn);
                     exit(1);
                 } else{
-                    printf("created Bid !\n");
+                    printf("Bid created !!!\n");
                     last_bidID = mysql_insert_id(conn);
                     int index_lot = SearchLot(lot_id);
                     currentListLots[index_lot].winning_bid = bid_amount;
                     currentListLots[index_lot].winning_bidder = bidder_user_id;
                 }
             } else{
-                printf("Create bid that bai !\n");
+                printf("Create bid failed !!!\n");
                 last_bidID = -1;
             }
         }

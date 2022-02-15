@@ -283,7 +283,6 @@ public class LotDetailController {
 
         Gson gson = new GsonBuilder().create();
         String bidMess = gson.toJson(messJson, JsonObject.class);
-        System.out.println(bidMess);
         return bidMess;
     }
 

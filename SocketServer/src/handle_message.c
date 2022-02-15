@@ -106,8 +106,6 @@ void readInfoImage(int socketID, int lotID, char *messageFromClient){
         cJSON_ArrayForEach(image, images){
             cJSON *image_name = cJSON_GetObjectItemCaseSensitive(image, "image_name");
             cJSON *image_size = cJSON_GetObjectItemCaseSensitive(image, "image_size");
-            //printf("image: |%s - %d|\n", image_name->valuestring, image_size->valueint);
-
 
             char pathImage[1025];
             strcpy(pathImage, pathDir);
@@ -122,7 +120,6 @@ void readInfoImage(int socketID, int lotID, char *messageFromClient){
             {
                 printf("Error opening file");
             }
-            int i=0;
             int size = image_size->valueint;
             while(size > 0 && (bytesReceived = read(socketID, recvBuff, ((size - 1024) > 0 ? 1024 : size))) > 0)
             {
@@ -175,8 +172,7 @@ void sendImages(int socketID, int lotID){
             printf("|size anh: %d - %d| \n", size, listImage[i].image_size);
             size = size - 1024;
         }
-        printf("File OK send to client....Completed\n");
-        rewind(fp);
+        printf("Send file to client....Completed\n");
         fclose(fp);
     }
 }
@@ -187,25 +183,18 @@ void sendALL(){
     for (int i = 0; i < count_user; i++) {
         // response message to client
         printf("Send to user %d: %s\n",listUser[i].user_id, responseMess);
-        //FD_SET(listUser[i].socket_id, &readfds);
         send(listUser[i].socket_id , responseMess , strlen(responseMess) , 0 );
-        //FD_CLR(listUser[i].socket_id, &readfds);
     }
-    //memset(responseMess, '\0', MAXLINE);
     free(responseMess);
 }
 
 void sendOne(int socketID){
-    //printf("Send to user %d: %s\n",socketID, responseMess);
+    printf("Send to user %d: %s\n",socketID, responseMess);
     // response message to client
     responseMess[strlen(responseMess)+1] = '\0';
     responseMess[strlen(responseMess)]='\n';
-    //printf("|String len messsage: %d|\n", strlen(responseMess));
-    //FD_SET(socketID, &writefds);
     send(socketID , responseMess , strlen(responseMess) , 0 );
-    //FD_CLR(socketID, &writefds);
     free(responseMess);
-    //memset(responseMess, '\0', MAXLINE);
 }
 
 void handleRequest(int command, char *messageFromClient, int socketID){
@@ -234,8 +223,6 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 response_command = 1;
                 commandJson = cJSON_CreateNumber(response_command);
                 cJSON_AddItemToObject(responseMessJson, "command", commandJson);
-                /*cJSON *userIdJson = cJSON_CreateNumber(newUser.user_id);
-                cJSON_AddItemToObject(responseMessJson, "user_id", userIdJson);*/
             } else{
                 printf("Sign up fail !\n");
                 response_command = -1;
@@ -251,9 +238,6 @@ void handleRequest(int command, char *messageFromClient, int socketID){
             //LOGIN
         case 2:
             newUser = readInfoClient(messageFromClient);
-            /*printf("LOGIN (command: %d)\n", command);
-            printf("Username: \"%s\"\n", newUser.username);
-            printf("Password: \"%s\"\n", newUser.password);*/
             result = login_user(newUser.username, newUser.password);
             isUserRunning = checkUserRunning(result);
             if(result > 0 && isUserRunning){
@@ -301,21 +285,26 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 responseMess = (char *) malloc(MAXLINE*sizeof (char ));
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
                 printf("Send to client: %s\n", responseMess);
+                FD_SET(socketID, &writefds);
                 sendOne(socketID);
-                while (1){
+                for (int i = 0; i < lotTotal; ++i) {
+                    listPathImage(currentListLots[i].lot_id);
+                    sendImages(socketID, currentListLots[i].lot_id);
+                }
+                /*while (1){
                     if(!FD_ISSET(socketID, &writefds)){
-                        FD_SET(socketID, &writefds);
+                        //FD_SET(socketID, &writefds);
                         // Send image to one client
                         for (int i = 0; i < lotTotal; ++i) {
                             listPathImage(currentListLots[i].lot_id);
                             sendImages(socketID, currentListLots[i].lot_id);
                         }
-                        FD_CLR(socketID, &writefds);
+                        //FD_CLR(socketID, &writefds);
                         break;
                     }else {
                         printf("|Socket %d dang ban|\n", socketID);
                     }
-                }
+                }*/
 
             } else{
                 printf("Login fail !\n");
@@ -327,15 +316,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
                 printf("Send to client: %s\n", responseMess);
                 sendOne(socketID);
-                /*for (int i = 0; i < MAXCLIENT; ++i) {
-                    if(client_socket[i] == socketID){
-                        client_socket[i] = 0;
-                        break;
-                    }
-                }
-                close(socketID);*/
             }
-
             break;
 
         case 3:
@@ -376,15 +357,6 @@ void handleRequest(int command, char *messageFromClient, int socketID){
             newUser = readInfoClient(messageFromClient);
             newLot = readInfoLot(messageFromClient);
             printf("|%s - %s - %.2f - %s|\n", newLot.title, newLot.description, newLot.min_price, convertTimeToString(newLot.stop_time));
-            /*char str[20];
-            strcpy(str, convertTimeToString(newLot.stop_time));
-            printf("%s\n", str);*/
-            /*result = create_lot(newLot.min_price, newLot.title, newLot.description, newUser.user_id,
-                                convertTimeToString(newLot.stop_time));
-            if (result >= 0){
-                addLotToList(newLot.min_price, newLot.title, newLot.description, newUser.user_id, convertTimeToString(newLot.stop_time));
-                printfListLot();
-            }*/
 
             //Ket qua tra ve la lot_id moi duoc them vao
             result = addLotToList(newLot.min_price, newLot.title, newLot.description, newUser.user_id, convertTimeToString(newLot.stop_time));
@@ -422,13 +394,13 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 for (int i = 0; i < count_user; i++){
                         while (1){
                             if(!FD_ISSET(listUser[i].socket_id, &writefds)){
-                                FD_SET(listUser[i].socket_id, &writefds);
+                                //FD_SET(listUser[i].socket_id, &writefds);
                                 responseMess = (char *) malloc(MAXLINE*sizeof (char ));
                                 responseMess = cJSON_PrintUnformatted(responseMessJson);
                                 printf("|clientID: %d|\n", listUser[i].socket_id);
                                 sendOne(listUser[i].socket_id);
                                 sendImages(listUser[i].socket_id, result);
-                                FD_CLR(listUser[i].socket_id, &writefds);
+                                //FD_CLR(listUser[i].socket_id, &writefds);
                                 break;
                             }else {
                                 printf("|Socket %d dang ban|\n", listUser[i].socket_id);
@@ -520,13 +492,13 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 }*/
                 while (1){
                     if(!FD_ISSET(socketID, &writefds)){
-                        FD_SET(socketID, &writefds);
+                        //FD_SET(socketID, &writefds);
                         // Send image to one client
                         for (int i = 0; i < lotTotalHistory; ++i) {
                             listPathImage(listLotsHistory[i].lot_id);
                             sendImages(socketID, listLotsHistory[i].lot_id);
                         }
-                        FD_CLR(socketID, &writefds);
+                        //FD_CLR(socketID, &writefds);
                         break;
                     }else {
                         printf("|Socket %d dang ban|\n", socketID);
@@ -564,7 +536,6 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 responseMess[strlen(responseMess)]='\n';
                 send(socketID , responseMess , strlen(responseMess) , 0 );
                 free(responseMess);
-                //memset(responseMess, '\0', MAXLINE);
             }
             break;
 
