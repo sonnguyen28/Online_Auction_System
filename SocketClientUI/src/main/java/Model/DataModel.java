@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 public class DataModel {
-    private ObservableList<Lot> lotListOb;
+    private ObservableList<Lot> lotListOb = FXCollections.observableArrayList(lot -> new Observable[] {lot.winning_bidProperty()});
 
     private ObservableList<Lot> lotHistoryListOb;
 
@@ -21,7 +21,7 @@ public class DataModel {
     }
 
     public void setLotListOb(ArrayList<Lot> listLot){
-        lotListOb = FXCollections.observableArrayList(lot -> new Observable[] {lot.winning_bidProperty()});
+        //lotListOb = FXCollections.observableArrayList(lot -> new Observable[] {lot.winning_bidProperty()});
         for (int i = 0; i < listLot.size(); i++) {
             lotListOb.add(listLot.get(i));
         }
@@ -29,6 +29,9 @@ public class DataModel {
 
     public void setlotHistoryListOb(ArrayList<Lot> lotHistoryList){
         lotHistoryListOb = FXCollections.observableArrayList(lotHistoryList);
+        /*for (int i = 0; i < lotHistoryList.size(); i++) {
+            lotHistoryListOb.add(lotHistoryList.get(i));
+        }*/
     }
 
     public ObservableList<Lot> getLotHistoryListOb() {

@@ -52,10 +52,10 @@ void *threadTime(void *data){
                     cJSON_AddItemToObject(imageJson, "image_name", cJSON_CreateString(listImage[i].image_name));
                     cJSON_AddItemToObject(imageJson, "image_size", cJSON_CreateNumber(listImage[i].image_size));
                 }
-
-                responseMess = (char *) malloc(MAXLINE*sizeof (char ));
-                responseMess = cJSON_PrintUnformatted(responseMessJson);
+                
                 for (int j = 0; j < count_user; j++) {
+                    responseMess = (char *) malloc(MAXLINE*sizeof (char ));
+                    responseMess = cJSON_PrintUnformatted(responseMessJson);
                     sendOne(listUser[j].socket_id);
                     sendImages(listUser[j].socket_id, currentListLots[i].lot_id);
                 }

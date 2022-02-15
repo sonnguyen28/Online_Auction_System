@@ -115,7 +115,7 @@ void readInfoImage(int socketID, int lotID, char *messageFromClient){
             strcat(pathImage, image_name->valuestring);
             printf("{%s}\n", pathImage);
 
-            FILE *fp = fopen(pathImage, "ab");
+            FILE *fp = fopen(pathImage, "wb");
             char recvBuff[1025] = {0};
             int bytesReceived = 0;
             if(NULL == fp)
@@ -157,22 +157,26 @@ Bid readInfoBid(char *messageFromClient)
 
 void sendImages(int socketID, int lotID){
     listPathImage(lotID);
-    FILE *fp;
+    FILE *fp = NULL;
     for (int i = 0; i < imageTotal; ++i) {
         fp = fopen(listImage[i].path_image, "rb");
         if(fp == NULL) {
             printf("File bi xoa !!!\n");
             break;
         }
-        int size = listImage[i].image_size;
+        //int size = listImage[i].image_size;
+        fseek(fp, 0, SEEK_END);
+        int size = ftell(fp);
+        fseek(fp, 0, SEEK_SET);
         unsigned char buff[1024]={0};
         int nread;
-        while (size > 0 && ((nread = fread(buff,1,((size - 1024) > 0) ? 1024 : size , fp)) > 0)){
+        while (size > 0 && ((nread = fread(buff,1,((size - 1024) >= 0) ? 1024 : size , fp)) > 0)){
             write(socketID, buff, nread);
-            //printf("|%d - %d| \n", size, listImage[0].image_size);
+            printf("|size anh: %d - %d| \n", size, listImage[i].image_size);
             size = size - 1024;
         }
         printf("File OK send to client....Completed\n");
+        rewind(fp);
         fclose(fp);
     }
 }
@@ -197,9 +201,9 @@ void sendOne(int socketID){
     responseMess[strlen(responseMess)+1] = '\0';
     responseMess[strlen(responseMess)]='\n';
     //printf("|String len messsage: %d|\n", strlen(responseMess));
-    FD_SET(socketID, &writefds);
+    //FD_SET(socketID, &writefds);
     send(socketID , responseMess , strlen(responseMess) , 0 );
-    FD_CLR(socketID, &writefds);
+    //FD_CLR(socketID, &writefds);
     free(responseMess);
     //memset(responseMess, '\0', MAXLINE);
 }
@@ -306,7 +310,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                             listPathImage(currentListLots[i].lot_id);
                             sendImages(socketID, currentListLots[i].lot_id);
                         }
-                        //FD_CLR(socketID, &writefds);
+                        FD_CLR(socketID, &writefds);
                         break;
                     }else {
                         printf("|Socket %d dang ban|\n", socketID);
@@ -414,7 +418,26 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                     cJSON_AddItemToObject(imageJson, "image_size", cJSON_CreateNumber(listImage[i].image_size));
                 }
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
-                sendALL();
+
+                for (int i = 0; i < count_user; i++){
+                        while (1){
+                            if(!FD_ISSET(listUser[i].socket_id, &writefds)){
+                                FD_SET(listUser[i].socket_id, &writefds);
+                                responseMess = (char *) malloc(MAXLINE*sizeof (char ));
+                                responseMess = cJSON_PrintUnformatted(responseMessJson);
+                                printf("|clientID: %d|\n", listUser[i].socket_id);
+                                sendOne(listUser[i].socket_id);
+                                sendImages(listUser[i].socket_id, result);
+                                FD_CLR(listUser[i].socket_id, &writefds);
+                                break;
+                            }else {
+                                printf("|Socket %d dang ban|\n", listUser[i].socket_id);
+                            }
+                        }
+                    }
+
+
+                /*//sendALL();
                 //sendOne(socketID);
                 for (int i = 0; i < count_user; ++i) {
                     while (1){
@@ -427,7 +450,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                             printf("|Socket %d dang ban|\n", listUser[i].socket_id);
                         }
                     }
-                }
+                }*/
             }else {
                 response_command = -4;
                 commandJson = cJSON_CreateNumber(response_command);
@@ -491,6 +514,10 @@ void handleRequest(int command, char *messageFromClient, int socketID){
             sendOne(socketID);
             //send image list
             if(lotTotalHistory != 0){
+                /*for (int i = 0; i < lotTotalHistory; ++i) {
+                    listPathImage(listLotsHistory[i].lot_id);
+                    sendImages(socketID, listLotsHistory[i].lot_id);
+                }*/
                 while (1){
                     if(!FD_ISSET(socketID, &writefds)){
                         FD_SET(socketID, &writefds);
@@ -499,7 +526,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                             listPathImage(listLotsHistory[i].lot_id);
                             sendImages(socketID, listLotsHistory[i].lot_id);
                         }
-                        //FD_CLR(socketID, &writefds);
+                        FD_CLR(socketID, &writefds);
                         break;
                     }else {
                         printf("|Socket %d dang ban|\n", socketID);

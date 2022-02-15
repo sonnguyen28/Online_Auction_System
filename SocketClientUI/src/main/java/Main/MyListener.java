@@ -189,7 +189,7 @@ public class MyListener extends Thread{
                     }
                 }
                 dataModel.getLotListOb().remove(index_lot);
-                if(dataModel.getLotHistoryListOb() != null){
+                if(dataModel.getLotHistoryListOb() != null && dataModel.getLotListOb().size() != 0){
                     dataModel.getLotHistoryListOb().add(lot_tmp);
                 }
                 if(client.getUser_id() == lot_tmp.getWinning_bidder()){

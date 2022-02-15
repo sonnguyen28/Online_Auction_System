@@ -242,6 +242,7 @@ int addLotToList(float min_price, char title[255], char description[255], int ow
         printf("create lot that bai");
         return -1;
     } else{
+        if(lotTotal == 0) currentListLots = (Lot *) calloc(1, sizeof(Lot));
         currentListLots = (Lot *) realloc(currentListLots, (lotTotal + 1)*sizeof(Lot));
         currentListLots[lotTotal].lot_id = last_lotID;
         currentListLots[lotTotal].min_price = min_price;
