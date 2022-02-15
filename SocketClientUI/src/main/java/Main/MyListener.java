@@ -206,6 +206,34 @@ public class MyListener extends Thread{
                         }
                     });
                 }
+                if(client.getUser_id() == lot_tmp.getOwner_id() && lot_tmp.getWinning_bidder() == 0){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
+                            alert.setTitle("Information");
+
+                            // Header Text: null
+                            alert.setHeaderText(null);
+                            alert.setContentText("Your item - \""+ lot_tmp.getTitle() + "( ID: " + lot_tmp.getLot_id() + " )" + "\" has no one to bid !!!");
+                            alert.show();
+                        }
+                    });
+                }
+                if(client.getUser_id() == lot_tmp.getOwner_id() && lot_tmp.getWinning_bidder() != 0){
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
+                            alert.setTitle("Information");
+
+                            // Header Text: null
+                            alert.setHeaderText(null);
+                            alert.setContentText("Congrats !\n Your Item - \"" + lot_tmp.getTitle() + "( ID: " + lot_tmp.getLot_id() + " )" +"\" has been auctioned for " + lot_tmp.getWinning_bid() + " !!!");
+                            alert.show();
+                        }
+                    });
+                }
                 break;
             case 8:
                 dataModel.getCurrentLotOb().getBitListOb().clear();

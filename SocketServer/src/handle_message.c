@@ -126,7 +126,7 @@ void readInfoImage(int socketID, int lotID, char *messageFromClient){
                 // recvBuff[n] = 0;
                 fwrite(recvBuff, 1, bytesReceived,fp);
                 //printf("|%d - %d - %d| \n", size, image_size->valueint, bytesReceived);
-                size = size - 1024;
+                size = size - bytesReceived;
                 //bzero(recvBuff, 1024);
             }
             //printf("|%d - %d| \n", size, image_size->valueint);
@@ -169,8 +169,8 @@ void sendImages(int socketID, int lotID){
         int nread;
         while (size > 0 && ((nread = fread(buff,1,((size - 1024) >= 0) ? 1024 : size , fp)) > 0)){
             write(socketID, buff, nread);
-            printf("|size anh: %d - %d| \n", size, listImage[i].image_size);
-            size = size - 1024;
+            //printf("|size anh: %d - %d| \n", size, listImage[i].image_size);
+            size = size - nread;
         }
         printf("Send file to client....Completed\n");
         fclose(fp);
@@ -189,7 +189,7 @@ void sendALL(){
 }
 
 void sendOne(int socketID){
-    printf("Send to user %d: %s\n",socketID, responseMess);
+    printf("Send to user %d: %s\n",listUser[SearchClientSocketID(socketID, count_user)].user_id, responseMess);
     // response message to client
     responseMess[strlen(responseMess)+1] = '\0';
     responseMess[strlen(responseMess)]='\n';
@@ -284,7 +284,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 // Convert Json to string
                 responseMess = (char *) malloc(MAXLINE*sizeof (char ));
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
-                printf("Send to client: %s\n", responseMess);
+                //printf("Send to client: %s\n", responseMess);
                 FD_SET(socketID, &writefds);
                 sendOne(socketID);
                 for (int i = 0; i < lotTotal; ++i) {

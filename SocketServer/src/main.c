@@ -212,7 +212,7 @@ int main(void) {
                     client_socket[i] = 0;
                 }
                 else if(valread == -1){
-                    printf("Loi !!!\n");
+                    //printf("Loi !!!\n");
                     if(SearchClientSocketID(sd, count_user) != -1){
                         DeleteClientSocketID(sd, &count_user);
                     }

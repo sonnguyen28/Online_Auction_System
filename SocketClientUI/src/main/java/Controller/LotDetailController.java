@@ -310,7 +310,7 @@ public class LotDetailController {
             }
             int command = myListener.getCommandMess();
             if (command == 3) {
-                System.out.println(myListener.getReceiveMessage());
+                //System.out.println(myListener.getReceiveMessage());
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
                 alert.setTitle("Information");
 
@@ -319,6 +319,7 @@ public class LotDetailController {
                 alert.setContentText("Bid successfully !!!");
                 alert.show();
                 errBid.setText("");
+                inputBidAmount.setText("");
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ButtonType.OK);
                 alert.setTitle("Information");
