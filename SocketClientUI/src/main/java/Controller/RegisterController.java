@@ -60,7 +60,8 @@ public class RegisterController {
                 }
                 if(command == -1){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("User already exists");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Account already exists");
                     alert.show();
                 }
             }else {
