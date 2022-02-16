@@ -189,7 +189,7 @@ void sendALL(){
 }
 
 void sendOne(int socketID){
-    printf("Send to user %d: %s\n",listUser[SearchClientSocketID(socketID, count_user)].user_id, responseMess);
+    printf("Send to client %d: %s\n",listUser[SearchClientSocketID(socketID, count_user)].user_id, responseMess);
     // response message to client
     responseMess[strlen(responseMess)+1] = '\0';
     responseMess[strlen(responseMess)]='\n';
@@ -314,7 +314,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 // Convert Json to string
                 responseMess = (char *) malloc(MAXLINE*sizeof (char ));
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
-                printf("Send to client: %s\n", responseMess);
+                //printf("Send to client: %s\n", responseMess);
                 sendOne(socketID);
             }
             break;
@@ -518,7 +518,7 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 // Convert Json to string
                 responseMess = (char *) malloc(MAXLINE*sizeof (char ));
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
-                printf("Send to client: %s\n", responseMess);
+                //printf("Send to client: %s\n", responseMess);
                 sendOne(socketID);
                 printf("Dang xuat thanh cong !!!\n");
                 //CloseSocket(socketID); // Dang xuat nhung ko dong socket ket noi (De co the dang nhap lai)
@@ -529,13 +529,14 @@ void handleRequest(int command, char *messageFromClient, int socketID){
                 // Convert Json to string
                 responseMess = (char *) malloc(MAXLINE*sizeof (char ));
                 responseMess = cJSON_PrintUnformatted(responseMessJson);
-                printf("Send to client: %s\n", responseMess);
+                //printf("Send to client: %s\n", responseMess);
 
-                // response message to client
+                /*// response message to client
                 responseMess[strlen(responseMess)+1] = '\0';
                 responseMess[strlen(responseMess)]='\n';
                 send(socketID , responseMess , strlen(responseMess) , 0 );
-                free(responseMess);
+                free(responseMess);*/
+                sendOne(socketID);
             }
             break;
 

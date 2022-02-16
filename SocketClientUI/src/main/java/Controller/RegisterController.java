@@ -65,7 +65,7 @@ public class RegisterController {
                     alert.show();
                 }
             }else {
-                System.out.println("Hello");
+                //System.out.println("Hello");
                 errMessageConfirmPassword.setText("The password confirmation does not match");
             }
         }
