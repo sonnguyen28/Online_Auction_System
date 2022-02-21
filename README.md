@@ -12,20 +12,20 @@ The online auction system is built with the client-server model.
 
 ![Login](https://github.com/sonnguyen28/Online_Auction_System/blob/main/Database/image_readme/login.png?raw=true)
 
-### _REGISTER_
+### _Register_
 
 ![Register](https://github.com/sonnguyen28/Online_Auction_System/blob/main/Database/image_readme/register.png?raw=true)
 
-### _HOME_
+### _Home_
 ![Home](https://github.com/sonnguyen28/Online_Auction_System/blob/main/Database/image_readme/home.png?raw=true)
 
-### _ITEM DETAIL_
+### _Item detail_
 ![Item detail](https://github.com/sonnguyen28/Online_Auction_System/blob/main/Database/image_readme/item_detail.png?raw=true)
 
-### _BID LIST_
+### _Bid list_
 ![Bid list](https://github.com/sonnguyen28/Online_Auction_System/blob/main/Database/image_readme/bid_list.png?raw=true)
 
-### _PURCHASE HISTORY_
+### _Purchase history_
 ![Purchase history](https://github.com/sonnguyen28/Online_Auction_System/blob/main/Database/image_readme/history.png?raw=true)
 
 
