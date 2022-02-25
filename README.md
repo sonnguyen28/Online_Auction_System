@@ -25,6 +25,9 @@ The online auction system is built with the client-server model.
 ### _Bid list_
 ![Bid list](https://github.com/sonnguyen28/Online_Auction_System/blob/main/Database/image_readme/bid_list.png?raw=true)
 
+### _Sell_
+![Sell](https://github.com/sonnguyen28/Online_Auction_System/blob/main/Database/image_readme/sell.png?raw=true)
+
 ### _Purchase history_
 ![Purchase history](https://github.com/sonnguyen28/Online_Auction_System/blob/main/Database/image_readme/history.png?raw=true)
 
